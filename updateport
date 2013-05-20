@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+echo "Updating versions on local dev ports..."
+update_port_versions.sh
+port selfupdate && \
+port outdated > ~/playground/port_outdated.txt && \
+port upgrade outdated &&\
+port -f uninstall inactive && \
+port clean --all installed;
+port installed > ~/playground/port_installed.txt;
+say "Port has finished the job, $USER." &
+growlnotify -n port -s -p 2 -m 'Macport update has finished.'
+echo "Ports updated:"
+cat ~/playground/port_outdated.txt
