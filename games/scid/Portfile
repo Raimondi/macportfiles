@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem          1.0
+name                scid
+version             4.5.1
+categories          games chess strategy
+platforms           darwin
+maintainers         Israel Chauca F. \
+                    israelchauca@gmail.com
+description         Shane's Chess Information Database
+long_description    Scid is an open application to view, edit, and manage \
+                    collections of chess games.
+homepage            http://scid.sourceforge.net/
+master_sites        sourceforge:${name}/Scid/Scid%204.5/
+checksums           md5 be14e3f4317d6b8799ef32505499e79f \
+                    sha1 7c73dc54618c9ff12a2c81616fb82c9fed0d5dbe
+depends_lib         port:tk port:zlib
+use_zip             yes
+compiler.blacklist-append   llvm-gcc-4.2
+#configure.cmd       ./configure Makefile=Makefile.conf.darwin COMPILE=clang++ CC=clang LINK="clang++ -std=c++11 -stdlib=libc++"
+build.cmd           make install
+
+checksum {}
+
+post-extract { file rename ${workpath}/scid-code-4c16ce9be2913fce26b210528e6b4dab9a82f906 ${worksrcpath}}
+
+destroot {
+    copy ${worksrcpath}/dist/Scid.app ${destroot}${applications_dir}
+}
+
