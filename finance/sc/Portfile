@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem            1.0
+name                  sc
+version               7.16
+revision              0
+categories            spelling
+platforms             darwin
+maintainers           Israel Chauca F. \
+                      gmail.com:israelchauca
+description           Spreadsheet calculator
+long_description      sc is a free curses-based spreadsheet program that uses \
+                      key bindings similar to vi and less.
+homepage              http://packages.debian.org/unstable/sc
+master_sites          debian:s/${name}
+distfiles             ${name}_${version}.orig${extract.suffix}
+worksrcdir            ${name}-${version}
+checksums             md5 5463eae8cbd1a156d2d9abd57a84441c \
+                      rdm160 15df3b73f224a54c22f59396ae2199a70c0ebb85 \
+                      sha256 e541f98bcf78ded2de2ce336abda9705a24b6ce67fc82806107880bf6504642a
+
+patchfiles            patch-Makefile.diff \
+                      patch-debian.diff
+patch.pre_args        -p1
+use_configure         no
+build.env-append      CFLAGS="${configure.cflags} [get_canonical_archflags]" \
+                      LDFLAGS="${configure.ldflags} [get_canonical_archflags]"
+build.args-append     prefix=${prefix}   \
+                      CC=${configure.cc}
+destroot.args-append  DESTDIR=${destroot} \
+                      prefix=${prefix}
+
+livecheck.type        regex
+livecheck.url         ${homepage}
+livecheck.regex       Package:\\s+${name}\\s+\\((\[0-9.\]+)
