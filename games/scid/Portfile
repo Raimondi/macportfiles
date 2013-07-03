@@ -7,23 +7,23 @@ version             4.5.1
 revision            0
 categories          games
 platforms           darwin
+license             GPL-2
 maintainers         Israel Chauca F. \
-                    israelchauca@gmail.com
+                    gmail.com:israelchauca
 description         Shane's Chess Information Database
 long_description    Scid is an open application to view, edit, and manage \
                     collections of chess games.
 homepage            http://scid.sourceforge.net/
-distname            scid-code-d2be6703094342bc47d7df1e60d374aaa7bb29f6
-master_sites        http://sourceforge.net/code-snapshots/git/s/sc/scid/code.git/
-checksums           md5 be14e3f4317d6b8799ef32505499e79f \
-                    sha1 7c73dc54618c9ff12a2c81616fb82c9fed0d5dbe
+fetch.type          git
+git.url             git://git.code.sf.net/p/scid/code
+git.branch          d2be6703094342bc47d7df1e60d374aaa7bb29f6
 depends_lib         port:tk port:zlib
-use_zip             yes
 build.cmd           make install
-
-checksum {}
 
 destroot {
     copy ${worksrcpath}/dist/Scid.app ${destroot}${applications_dir}
 }
 
+livecheck.type        regex
+livecheck.url         http://sourceforge.net/p/scid/code/ci/master/tree/tcl/start.tcl?format=raw
+livecheck.regex       ^set\\s+${name}Version\\s+"(\[0-9.\]+)"
