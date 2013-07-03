@@ -5,7 +5,7 @@ PortSystem          1.0
 name                vim-hg
 set vim_version     7.3
 set gitcommit       master
-version             7.3.967
+version             7.3.1287
 revision            0
 categories          editors
 platforms           darwin freebsd
@@ -18,11 +18,14 @@ long_description \
 
 homepage            http://www.vim.org/
 
-master_sites        http://github.com/b4winckler/vim/zipball/${gitcommit}
+#master_sites        http://github.com/b4winckler/vim/zipball/${gitcommit}
 distname            vim-${vim_version}
-use_zip             yes
+#use_zip             yes
 dist_subdir         ${name}/${vim_version}_2
 worksrcdir          ${name}
+fetch.type          hg
+hg.url              https://code.google.com/p/vim/
+hg.tag              tip
 
 # Use MacPorts' default compilers
 # http://trac.macports.org/wiki/UsingTheRightCompiler
@@ -53,7 +56,7 @@ configure.args      --disable-gui \
                     --with-developer-dir=${developer_dir}
 post-extract {
     # github zipball has root folder including commitish, renaming for ease of use
-    file rename [glob ${workpath}/b4winckler-*] ${worksrcpath}
+    #file rename [glob ${workpath}/b4winckler-*] ${worksrcpath}
 
     # create cache directory
     file mkdir ${workpath}/caches
