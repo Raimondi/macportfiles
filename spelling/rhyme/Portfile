@@ -24,12 +24,10 @@ patchfiles            patch-Makefile.diff
 
 use_configure         no
 
-build.env-append      CFLAGS="${configure.cflags} [get_canonical_archflags]" \
-                      LDFLAGS="${configure.ldflags} [get_canonical_archflags]"
+build.env-append      FLAGS="${configure.cflags} [get_canonical_archflags]"
 
 build.args-append     PREFIX=${prefix}   \
-                      CC=${configure.cc} \
-                      LD=${configure.cc}
+                      CC=${configure.cc}
 
 destroot.args-append  DESTDIR=${destroot} \
                       PREFIX=${prefix}
