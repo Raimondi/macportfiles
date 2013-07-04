@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem            1.0
+name                  stockfish
+version               3
+revision              0
+categories            games
+platforms             darwin
+license               GPL-3
+maintainers           Israel Chauca F. \
+                      gmail.com:israelchauca
+description           Powerful open source chess engine
+long_description      Stockfish is no slouch, it plays on the same level as \
+                      commercial engines like Rybka and Houdini. And it's the \
+                      most powerful open source chess engine in the world.
+homepage              http://stockfishchess.org/
+distname              ${name}-${version}-mac
+master_sites          http://cl.ly/3K2U0i3h1V2S/download/
+checksums             rmd160 ddeeebc478dd5cbf8e0d022b48f71f5061fa94db \
+                      sha256 044e881d0d87ff81095d1c4d3736e783d76f2ed3ea389422e7c5a8546af69267
+
+use_zip               yes
+fetch.ignore_sslcert  yes
+use_configure         no
+build {}
+
+destroot {
+    foreach x {32 64} {
+        xinstall -m 0755 "${worksrcpath}/Mac/${name}-${version}-${x}" "${destroot}${prefix}/bin"
+    }
+    if { [file exists ${workpath}/Book.bin] } {
+        xinstall -m 0644 ${workpath}/Book.bin "${destroot}${prefix}/bin"
+    }
+}
+
+variant book description {install the Stockfish opening book.} {
+    distfiles         ${distname}${extract.suffix}:src \
+                      stockfish-231-book.zip:contrib
+    master_sites-append http://cl.ly/3x333m0G173F/download/
+    set checksums "${distname}${extract.suffix} ${checksums}"
+    append checksums " stockfish-231-book.zip"
+    append checksums " rmd160 845fe97d5bf647e707185181b8e44875adaa8e89"
+    append checksums " sha256 07ee06bcd3fe1c5e0d90a2d0aede8bac2dd31d52fb4e1c9bc477bb5a8939e414"
+}
+
+livecheck.type        regex
+livecheck.url         http://stockfishchess.org/download/
+livecheck.regex       /${name}-(\[0-9.\])-mac.zip
