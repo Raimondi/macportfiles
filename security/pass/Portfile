@@ -24,8 +24,7 @@ homepage              http://zx2c4.com/projects/password-store/
 master_sites          http://git.zx2c4.com/password-store/snapshot/
 distname              password-store-${version}
 
-checksums             md5 c6382dbf5be4036021bf1ce61254b04b \
-                      rdm160 8f496a3c302ebe56bbbab002401e1a3efe1e1eaa \
+checksums             rmd160 8f496a3c302ebe56bbbab002401e1a3efe1e1eaa \
                       sha256 a10a8016a3d6bb32891a9a4086ac0a049587db1a55c1ac3b431c66189bc1a302
 
 use_xz                yes
