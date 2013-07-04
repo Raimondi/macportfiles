@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+cmd=port
+input=${HOME}/ports/myports
+
+echo "Livechecking on the ports listed in \"${input}\"."
+echo
+while read port
+do
+  echo -n checking ${port}...
+  $cmd livecheck $port
+  echo done.
+done < "$input"
