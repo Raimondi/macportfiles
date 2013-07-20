@@ -2,19 +2,18 @@
 # $Id$
 
 PortSystem            1.0
+
 name                  rhyme
 version               0.9
-revision              0
 categories            spelling
 platforms             darwin
 license               GPL-2
-maintainers           Israel Chauca F. \
-                      gmail.com:israelchauca
+maintainers           gmail.com:israelchauca
 description           Rhyming dictionary.
-long_description      command-line program that takes a word and returns to you \
+long_description      Command-line program that takes a word and returns to you \
                       a formatted list of all words that rhyme with it.
 homepage              http://rhyme.sourceforge.net/
-master_sites          sourceforge:project/${name}/${name}/${version}
+master_sites          sourceforge:project/rhyme/rhyme/${version}
 checksums             rmd160 5049ee3f2ad6d56d03fd28a7399129213f4ca808 \
                       sha256 11d4862cc3adfc18ea83ca233854c562fcebdc838fa7fb62de6ef3f63f992bd4
 
@@ -26,7 +25,8 @@ use_configure         no
 
 build.env-append      FLAGS="${configure.cflags} [get_canonical_archflags]"
 
-build.args-append     PREFIX=${prefix}   \
+build.args-append     -j1 \
+                      PREFIX=${prefix}   \
                       CC=${configure.cc}
 
 destroot.args-append  DESTDIR=${destroot} \

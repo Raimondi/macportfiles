@@ -7,8 +7,7 @@ version               7.16
 revision              0
 categories            spelling
 platforms             darwin
-maintainers           Israel Chauca F. \
-                      gmail.com:israelchauca
+maintainers           gmail.com:israelchauca
 description           Spreadsheet calculator
 long_description      sc is a free curses-based spreadsheet program that uses \
                       key bindings similar to vi and less.

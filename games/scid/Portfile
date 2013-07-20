@@ -8,8 +8,7 @@ revision            0
 categories          games
 platforms           darwin
 license             GPL-2
-maintainers         Israel Chauca F. \
-                    gmail.com:israelchauca
+maintainers         gmail.com:israelchauca
 description         Shane's Chess Information Database
 long_description    Scid is an open application to view, edit, and manage \
                     collections of chess games.

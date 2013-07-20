@@ -8,8 +8,7 @@ revision              0
 categories            games
 platforms             darwin
 license               GPL-3
-maintainers           Israel Chauca F. \
-                      gmail.com:israelchauca
+maintainers           gmail.com:israelchauca
 description           Powerful open source chess engine
 long_description      Stockfish is no slouch, it plays on the same level as \
                       commercial engines like Rybka and Houdini. And it's the \

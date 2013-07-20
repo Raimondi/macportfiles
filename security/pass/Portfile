@@ -2,14 +2,16 @@
 # $Id$
 
 PortSystem            1.0
+
 name                  pass
 version               1.4.2
 revision              0
 categories            security
 platforms             darwin
 license               GPL-2+
-maintainers           Israel Chauca F. \
-                      gmail.com:israelchauca
+maintainers           gmail.com:israelchauca
+
+supported_archs       noarch
 description           The standard unix password manager.
 long_description      Password management should be simple and follow Unix    \
                       philosophy. With pass, each password lives inside of    \
