@@ -31,12 +31,3 @@
  
  uninstall:
  	rm -f $(BINPATH)/rhyme
-@@ -53,7 +53,7 @@
- 	$(CC) $(FLAGS) -o makedb makedb.c longline.o dict.o parts.o alloc.o
- 
- %.db: makedb compile merge $(DICTS)
--	./merge $(DICTS) | ./makedb words.db rhymes.db multiple.db
-+	-./merge $(DICTS) | ./makedb words.db rhymes.db multiple.db
- 
- #This is a program for easy lookup of pronunciations.
- #It is meant to aid in building new pronunciations and is not used by
