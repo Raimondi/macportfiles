@@ -1,0 +1,21 @@
+Description: I found some empty lines in the computer datfile
+ that should use the '%' symbol instead to properly divide quotes.
+Author: Javier Fernandez-Sanguino Pena <jfs@computer.org>
+Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=646380
+
+--- fortune-mod-1.99.1-1/datfiles/computers	2011-10-07 20:13:16.850758507 +0200
++++ fortune-mod-1.99.1/datfiles/computers	2011-10-23 19:29:22.491838110 +0200
+@@ -1839,11 +1839,11 @@
+ %
+ I have never seen anything fill up a vacuum so fast and still suck.
+ 		-- Rob Pike, on X.
+-
++%
+ Steve Jobs said two years ago that X is brain-damaged and it will be
+ gone in two years.  He was half right.
+ 		-- Dennis Ritchie
+-
++%
+ Dennis Ritchie is twice as bright as Steve Jobs, and only half wrong.
+ 		-- Jim Gettys
+ %

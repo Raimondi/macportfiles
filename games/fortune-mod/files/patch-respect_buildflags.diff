@@ -1,0 +1,25 @@
+Description: inherit CFLAGS and LDFLAGS if available.
+ CPPFLAGS was inherited by Make automatic rules.
+Author: Nicolas Boulenguez <nicolas.boulenguez@free.fr>
+
+Index: b/Makefile
+===================================================================
+--- a/Makefile	2012-07-07 00:52:38.000000000 +0200
++++ b/Makefile	2012-07-07 02:42:03.000000000 +0200
+@@ -65,8 +65,14 @@
+ RECODELIBS=-lrecode
+ 
+ DEFINES=-DFORTDIR="\"$(COOKIEDIR)\"" -DOFFDIR="\"$(OCOOKIEDIR)\"" -DLOCFORTDIR="\"$(LOCALDIR)\"" -DLOCOFFDIR="\"$(LOCALODIR)\""
+-CFLAGS=-O2 $(DEFINES) -Wall -fomit-frame-pointer -pipe -fsigned-char
+-LDFLAGS=-s
++
++# Inherit CFLAGS from the environment, else use
++CFLAGS ?= -O2
++# Anyway, append
++CFLAGS += $(DEFINES) -Wall -fomit-frame-pointer -pipe -fsigned-char
++
++# Inherit LDFLAGS from the environment, else use
++LDFLAGS ?= -s
+ 
+ # The above flags are used by default; the debug flags are used when make
+ # is called with a debug target, such as 'make debug'

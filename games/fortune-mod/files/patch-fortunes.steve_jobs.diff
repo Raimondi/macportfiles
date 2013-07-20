@@ -1,0 +1,101 @@
+Description: Add new fortunes from Steve Jobs (in memoriam).
+Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=644644
+Author: Javier Fernandez-Sanguino Pen~a <jfs@debian.org>
+
+Index: b/datfiles/computers
+===================================================================
+--- a/datfiles/computers	2012-07-07 05:36:36.000000000 +0200
++++ b/datfiles/computers	2012-07-07 05:37:19.000000000 +0200
+@@ -5466,3 +5466,35 @@
+ of interest is easy.
+     -- Alan Perlis
+ %
++If, for some reason, we make some big mistake and IBM wins, my personal feeling
++is that we are going to enter a computer Dark Ages for about twenty years.
++                -- Steve Jobs (1955-2011)
++%
++You can't just ask customers what they want and then try to give that to them.
++By the time you get it built, they'll want something new.
++                -- Steve Jobs (1955-2011)
++%
++What a computer is to me is the most remarkable tool that we have ever come up
++with. It's the equivalent of a bicycle for our minds.
++                -- Steve Jobs (1955-2011)
++%
++It's really hard to design products by focus groups. A lot of times, people
++don't know what they want until you show it to them.
++                -- Steve Jobs (1955-2011)
++%
++Innovation has nothing to do with how many R&D dollars you have. When Apple
++came up with the Mac, IBM was spending at least 100 times more on R&D. It's not
++about money. It's about the people you have, how you're led, and how much you
++get it.
++                -- Steve Jobs (1955-2011)
++%
++I would trade all of my technology for an afternoon with Socrates.
++                -- Steve Jobs (1955-2011)
++That's been one of my mantras - focus and simplicity. Simple can be harder than
++complex: You have to work hard to get your thinking clean to make it simple.
++But it's worth it in the end because once you get there, you can move
++mountains.
++                -- Steve Jobs (1955-2011)
++%
++Innovation distinguishes between a leader and a follower.
++                -- Steve Jobs (1955-2011)
+Index: b/datfiles/people
+===================================================================
+--- a/datfiles/people	2012-07-07 05:36:36.000000000 +0200
++++ b/datfiles/people	2012-07-07 05:38:27.000000000 +0200
+@@ -4318,3 +4318,34 @@
+ The pessimist is afraid this might be true.
+ 		-- crazyphilman's sig on kuro5hin
+ %
++It's rare that you see an artist in his 30s or 40s able to really contribute
++something amazing.
++                -- Steve Jobs (1955-2011)
++%
++Do you want to spend the rest of your life selling sugared water or do you want
++a chance to change the world?
++                -- Steve Jobs (1955-2011)
++%
++It's more fun to be a pirate than to join the navy.
++                -- Steve Jobs (1955-2011)
++%
++Being the richest man in the cemetery doesn't matter to me ... Going to bed at
++night saying we've done something wonderful... that's what matters to me.
++                -- Steve Jobs (1955-2011)
++%
++I would trade all of my technology for an afternoon with Socrates.
++                -- Steve Jobs (1955-2011)
++%
++I have looked in the mirror every morning and asked myself: "If today were the
++last day of my life, would I want to do what I am about to do today?" And
++whenever the answer has been "No" for too many days in a row, I know I need to
++change something.
++                -- Steve Jobs (1955-2011)
++%
++Remembering that I'll be dead soon is the most important tool I've ever
++encountered to help me make the big choices in life.
++                -- Steve Jobs (1955-2011)
++%
++I'm the only person I know that's lost a quarter of a billion dollars in one
++year.... It's very character-building
++               -- Steve Jobs (1955-2011)
+Index: b/datfiles/wisdom
+===================================================================
+--- a/datfiles/wisdom	2012-07-07 05:36:36.000000000 +0200
++++ b/datfiles/wisdom	2012-07-07 05:38:15.000000000 +0200
+@@ -1638,3 +1638,13 @@
+  people products they actively seek."
+    -- Katherine Mangu-Ward, "Education for Profit", Reason Magazine, July 2008
+ %
++Your time is limited, so don't waste it living someone else's life
++                -- Steve Jobs (1955-2011)
++%
++Your work is going to fill a large part of your life, and the only way to be
++truly satisfied is to do what you believe is great work. And the only way to do
++great work is to love what you do. If you haven't found it yet, keep looking.
++Don't settle. As with all matters of the heart, you'll know when you find it.
++And, like any great relationship, it just gets better and better as the years
++roll on. So keep looking until you find it. Don't settle.
++                -- Steve Jobs (1955-2011)

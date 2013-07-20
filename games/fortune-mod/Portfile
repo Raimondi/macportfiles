@@ -1,0 +1,62 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 92350 2012-04-25 22:29:34Z ryandesign@macports.org $
+
+PortSystem          1.0
+
+name                fortune-mod
+version             1.99.1
+revision            6
+categories          games
+platforms           darwin freebsd
+maintainers         gmail.com:israelchauca
+license             BSD
+installs_libs       no
+
+description         Infamous electronic fortune-cookie generator
+
+long_description    When  fortune  is run with no arguments it prints out a \
+                    random epigram.  Epigrams are divided into several \
+                    categories, where  each  category  is sub-divided  into \
+                    those which are potentially offensive and those which are \
+                    not.
+
+homepage            http://packages.qa.debian.org/f/fortune-mod.html
+master_sites        debian:/f/${name}
+distname            ${name}_${version}.orig
+worksrcdir          ${name}-${version}
+
+checksums           rmd160 020e597bde43ebd58ea82171d0e69222dc26b566 \
+                    sha256 fc51aee1f73c936c885f4e0f8b6b48f4f68103e3896eaddc6a45d2b71e14eace
+
+conflicts           fortune
+
+# Debian patches:
+patchfiles-append   patch-changes_outside_debian_subdir_1.99.1-4.diff
+patchfiles-append   patch-shortcut_cookie_lists_build_system.diff
+patchfiles-append   patch-typo_in_manpage.diff
+patchfiles-append   patch-respect_buildflags.diff
+patchfiles-append   patch-gcc_warnings.diff
+patchfiles-append   patch-fortunes.steve_jobs.diff
+patchfiles-append   patch-quotes_not_properly_divided.diff
+patchfiles-append   patch-dennis-ritchie.diff
+patchfiles-append   patch-search_LOCFORTDIR_even_if_LANG_not_set.diff
+patchfiles-append   patch-remove_backspaces.diff
+patchfiles-append   patch-rochefoucauld.diff
+# Macports patches:
+patchfiles-append   patch-fix-paths.diff
+
+depends_lib         port:recode-devel
+
+patch.pre_args      -p1
+
+use_configure       no
+
+variant universal {}
+
+build.env-append    CFLAGS="[get_canonical_archflags]" \
+                    CC=${configure.cc}
+
+build.post_args     REGEXDEFS='-DHAVE_REGEX_H -DPOSIX_REGEX' \
+                    prefix=${prefix}
+
+destroot.destdir    prefix=${destroot}${prefix}
