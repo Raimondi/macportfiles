@@ -6,7 +6,7 @@ name                MacVim-dev
 set vim_version     7.3
 set snapshot        66
 set gitcommit       master
-version             7.3.1298
+version             7.4a.009
 revision            0
 categories          editors
 platforms           darwin

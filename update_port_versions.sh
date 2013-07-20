@@ -2,7 +2,7 @@
 
 # Update Vim's Portfile
 VERSION=$(curl https://vim.googlecode.com/hg/.hgtags 2>/dev/null | tail -n 1 | sed -e 's/^[0-9a-f]*  *v//;s/-/./g;')
-if [[ $VERSION =~ ^7\.[3-9]\.[0-9]+$ ]]; then
+if [[ $VERSION =~ ^7\.[3-9a-zA-Z]+\.[0-9a-zA-Z]+$ ]]; then
   sed -i -e "s/^\(version  *\)[^ ]*\$/\1$VERSION/" /users/israel/ports/editors/vim/Portfile
   echo "Vim's version updated to \"$VERSION\"."
 else
@@ -12,7 +12,7 @@ fi
 # Update MacVim's Portfile
 unset VERSION
 VERSION=$(curl https://raw.github.com/b4winckler/macvim/master/.hgtags 2>/dev/null | tail -n 1 | sed -e 's/^[0-9a-f]*  *v//;s/-/./g;')
-if [[ $VERSION =~ ^7\.[3-9]\.[0-9]+$ ]]; then
+if [[ $VERSION =~ ^7\.[3-9a-zA-Z]+\.[0-9a-zA-Z]+$ ]]; then
   sed -i -e "s/^\(version  *\)[^ ]*\$/\1$VERSION/" /users/israel/ports/editors/MacVim/Portfile
   echo "MacVim's version updated to \"$VERSION\"."
 else
