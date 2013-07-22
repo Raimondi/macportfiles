@@ -5,7 +5,7 @@ PortSystem          1.0
 
 name                fortune-mod
 version             1.99.1
-revision            6
+set deb_revision    6
 categories          games
 platforms           darwin freebsd
 maintainers         gmail.com:israelchauca
@@ -31,18 +31,18 @@ checksums           rmd160 020e597bde43ebd58ea82171d0e69222dc26b566 \
 conflicts           fortune
 
 # Debian patches:
-patchfiles-append   patch-changes_outside_debian_subdir_1.99.1-4.diff
-patchfiles-append   patch-shortcut_cookie_lists_build_system.diff
-patchfiles-append   patch-typo_in_manpage.diff
-patchfiles-append   patch-respect_buildflags.diff
-patchfiles-append   patch-gcc_warnings.diff
-patchfiles-append   patch-fortunes.steve_jobs.diff
-patchfiles-append   patch-quotes_not_properly_divided.diff
-patchfiles-append   patch-dennis-ritchie.diff
-patchfiles-append   patch-search_LOCFORTDIR_even_if_LANG_not_set.diff
-patchfiles-append   patch-remove_backspaces.diff
-patchfiles-append   patch-rochefoucauld.diff
-# Macports patches:
+patchfiles          patch-changes_outside_debian_subdir_1.99.1-4.diff \
+                    patch-shortcut_cookie_lists_build_system.diff \
+                    patch-typo_in_manpage.diff \
+                    patch-respect_buildflags.diff \
+                    patch-gcc_warnings.diff \
+                    patch-fortunes.steve_jobs.diff \
+                    patch-quotes_not_properly_divided.diff \
+                    patch-dennis-ritchie.diff \
+                    patch-search_LOCFORTDIR_even_if_LANG_not_set.diff \
+                    patch-remove_backspaces.diff \
+                    patch-rochefoucauld.diff
+# Local patches:
 patchfiles-append   patch-fix-paths.diff
 
 depends_lib         port:recode-devel
@@ -51,12 +51,20 @@ patch.pre_args      -p1
 
 use_configure       no
 
-variant universal {}
-
-build.env-append    CFLAGS="[get_canonical_archflags]" \
+build.env-append    CFLAGS="[get_canonical_archflags]"
+build.post_args     REGEXDEFS='-DHAVE_REGEX_H -DPOSIX_REGEX' \
+                    prefix=${prefix} \
                     CC=${configure.cc}
 
-build.post_args     REGEXDEFS='-DHAVE_REGEX_H -DPOSIX_REGEX' \
-                    prefix=${prefix}
-
 destroot.destdir    prefix=${destroot}${prefix}
+
+variant universal {}
+
+variant no_offensive description {Do not install offensive fortune files.} {
+    destroot.post_args-append OFFENSIVE=0
+}
+
+livecheck.version   ${version}-${deb_revision}
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     latest_version">1:(\[-0-9.\]+)<

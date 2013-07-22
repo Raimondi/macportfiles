@@ -38,3 +38,12 @@ diff -Naur a/Makefile b/Makefile
  FORTMANEXT=6
  # Do we want to install the offensive files? (0 no, 1 yes)
  OFFENSIVE=1
+@@ -114,7 +114,7 @@ fortune-bin:
+ fortune-debug:
+ 	cd fortune && $(MAKE) CC='$(CC)' \
+ 		    CFLAGS='$(DEBUGCFLAGS) $(REGEXDEFS) -I../util' \
+-		    LDFLAGS='$(DEBUGLDFLAGS)' LIBS='$(REGEXLIBS)'
++		    LDFLAGS='$(DEBUGLDFLAGS)' LIBS='$(REGEXLIBS) $(RECODELIBS)'
+
+ util-bin:
+ 	cd util && $(MAKE) CC='$(CC)' CFLAGS='$(CFLAGS)'	\
