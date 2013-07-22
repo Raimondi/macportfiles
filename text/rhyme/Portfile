@@ -5,7 +5,7 @@ PortSystem            1.0
 
 name                  rhyme
 version               0.9
-categories            spelling
+categories            text spelling
 platforms             darwin
 license               GPL-2
 maintainers           gmail.com:israelchauca
