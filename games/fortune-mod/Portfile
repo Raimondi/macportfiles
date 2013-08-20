@@ -5,7 +5,8 @@ PortSystem          1.0
 
 name                fortune-mod
 version             1.99.1
-set deb_revision    6
+set deb_revision    7
+revision            1
 categories          games
 platforms           darwin freebsd
 maintainers         gmail.com:israelchauca
@@ -22,26 +23,61 @@ long_description    When  fortune  is run with no arguments it prints out a \
 
 homepage            http://packages.qa.debian.org/f/fortune-mod.html
 master_sites        debian:/f/${name}
+patch_sites         http://patch-tracker.debian.org/patch/series/dl/fortune-mod/1:${version}-${deb_revision}
 distname            ${name}_${version}.orig
 worksrcdir          ${name}-${version}
 
-checksums           rmd160 020e597bde43ebd58ea82171d0e69222dc26b566 \
-                    sha256 fc51aee1f73c936c885f4e0f8b6b48f4f68103e3896eaddc6a45d2b71e14eace
+checksums           ${distname}${extract.suffix} \
+                        rmd160 020e597bde43ebd58ea82171d0e69222dc26b566 \
+                        sha256 fc51aee1f73c936c885f4e0f8b6b48f4f68103e3896eaddc6a45d2b71e14eace \
+                    changes_outside_debian_subdir_1.99.1-4.diff \
+                        rmd160 e9e96cf325601ccfbfd1a84b8e4ab0b807837a70 \
+                        sha256 af69bdb83ec2f0aaae2f227950a859c2efc958f6a92d6d8ac016585be8b9651e \
+                    dennis-ritchie.diff \
+                        rmd160 b18f3f5d2d060fa1308f793664d8e678962eebb1 \
+                        sha256 fa212eda5ecba1b071fe80eadb734a1cea179e8808d61ffcd8d8c76736b3381d \
+                    fortunes.steve_jobs.diff \
+                        rmd160 103d73a290f02ba1ff35d165831259e414863206 \
+                        sha256 fd1b9d56caf43f05b4d91949567c81db9cfa7b5779863b84e1eea6d2e679e969 \
+                    gcc_warnings.diff \
+                        rmd160 d6e38e6203767ad426889390c2fbbfc707dc0bfd \
+                        sha256 e9edf05155c5d03acaaaa4bf0b2541280cb522c621e0fd7d599b22181c989677 \
+                    quotes_not_properly_divided.diff \
+                        rmd160 cae98856933ffed399621d82b9576f13b84c02b1 \
+                        sha256 8d099118432dedc77c692e8d06f091502a3c4e8a225b7744c45897b34baf87a1 \
+                    remove_backspaces.diff \
+                        rmd160 1f5ac1095bbb748d257a02c183a29e7ce2d7e3ba \
+                        sha256 524497039395ed53d9cbc1b3197a0544ae661ba8ebd591bc40f862f6b48c8b5e \
+                    respect_buildflags.diff \
+                        rmd160 48dccc5630708a92df1e6da94e3c9a4ef2b2f8e6 \
+                        sha256 4f9f0fde5540a7ce1fbcb9cc3fb81ae78cd5bf28e3fc31fbf483a28f370cd228 \
+                    rochefoucauld.diff \
+                        rmd160 05eccf7c8759dbd4dccfd8eaba9a1147acd54bad \
+                        sha256 a66700e04472fd2b2808dad791dadda9cc62f587435e7fdb79510123058a68c1 \
+                    search_LOCFORTDIR_even_if_LANG_not_set.diff \
+                        rmd160 cc0cc71303d3f97b1da48d81660214748a89c209 \
+                        sha256 0d30ea478ad43115cc5734ee97499ac2693547a2a9d16de0ff15e127172f71dd \
+                    shortcut_cookie_lists_build_system.diff \
+                        rmd160 a75d426c5b06de83fb5c9b4eb06bfe1849361a21 \
+                        sha256 6a565f1b55943acb3c0c104d6b9b9f7627f829d20a73f5bc475e24091598a66f \
+                    typo_in_manpage.diff \
+                        rmd160 b26ef1b175ef602dfa91ae169d90e2a48a5a298e \
+                        sha256 3040bbbc376c319430e9d5240f4ae0c3db55777abcea74f91b3fc7dea5f73322
 
 conflicts           fortune
 
 # Debian patches:
-patchfiles          patch-changes_outside_debian_subdir_1.99.1-4.diff \
-                    patch-shortcut_cookie_lists_build_system.diff \
-                    patch-typo_in_manpage.diff \
-                    patch-respect_buildflags.diff \
-                    patch-gcc_warnings.diff \
-                    patch-fortunes.steve_jobs.diff \
-                    patch-quotes_not_properly_divided.diff \
-                    patch-dennis-ritchie.diff \
-                    patch-search_LOCFORTDIR_even_if_LANG_not_set.diff \
-                    patch-remove_backspaces.diff \
-                    patch-rochefoucauld.diff
+patchfiles          changes_outside_debian_subdir_1.99.1-4.diff \
+                    shortcut_cookie_lists_build_system.diff \
+                    typo_in_manpage.diff \
+                    respect_buildflags.diff \
+                    gcc_warnings.diff \
+                    fortunes.steve_jobs.diff \
+                    quotes_not_properly_divided.diff \
+                    dennis-ritchie.diff \
+                    search_LOCFORTDIR_even_if_LANG_not_set.diff \
+                    remove_backspaces.diff \
+                    rochefoucauld.diff
 # Local patches:
 patchfiles-append   patch-fix-paths.diff
 
@@ -68,3 +104,5 @@ livecheck.version   ${version}-${deb_revision}
 livecheck.type      regex
 livecheck.url       ${homepage}
 livecheck.regex     latest_version">1:(\[-0-9.\]+)<
+
+# http://patch-tracker.debian.org/patch/series/dl/fortune-mod/1:1.99.1-7/
