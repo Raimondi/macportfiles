@@ -4,7 +4,6 @@
 PortSystem            1.0
 name                  sc
 version               7.16
-revision              0
 categories            spelling
 platforms             darwin
 maintainers           gmail.com:israelchauca
@@ -17,6 +16,8 @@ distfiles             ${name}_${version}.orig${extract.suffix}
 worksrcdir            ${name}-${version}
 checksums             rmd160 15df3b73f224a54c22f59396ae2199a70c0ebb85 \
                       sha256 e541f98bcf78ded2de2ce336abda9705a24b6ce67fc82806107880bf6504642a
+
+depends_lib           port:ncurses
 
 patchfiles            patch-Makefile.diff \
                       patch-debian.diff

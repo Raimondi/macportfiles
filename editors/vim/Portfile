@@ -5,7 +5,7 @@ PortSystem          1.0
 name                vim-hg
 set vim_version     7.3
 set gitcommit       master
-version             7.4a.039
+version             7.4.131
 revision            0
 categories          editors
 platforms           darwin freebsd
@@ -185,6 +185,20 @@ variant python33 conflicts python31 python32 description {Enable Python scriptin
     use_autoconf yes
     # Overwriting autoconf.cmd above removes dependency, add it again
     depends_build-append port:autoconf
+}
+
+variant racket description {Enable Lua scripting} {
+    configure.args-append   --enable-luainterp --with-lua-prefix=${prefix}
+    depends_lib-append  port:lua
+}
+variant lua description {Enable Lua scripting} {
+    configure.args-append   --enable-luainterp --with-lua-prefix=${prefix}
+    depends_lib-append  port:lua
+}
+variant luajit requires lua description {Link with LuaJIT instead of Lua} {
+    # Not sure what's wrong yet.
+    configure.args-append  --with-luajit
+    depends_lib-append  port:luajit
 }
 variant ruby requires ruby18 description {Compatibility variant, requires +ruby18} {}
 variant ruby18 conflicts ruby19 description {Enable Ruby scripting} {
