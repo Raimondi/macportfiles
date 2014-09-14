@@ -5,7 +5,7 @@ PortSystem          1.0
 name                vim-hg
 set vim_version     7.3
 set gitcommit       master
-version             7.4.131
+version             7.4.442
 revision            0
 categories          editors
 platforms           darwin freebsd
@@ -67,6 +67,20 @@ post-patch {
     puts $features "#define SYS_VIMRC_FILE \"${prefix}/etc/vimrc\""
     close $features
 }
+
+autoconf.cmd make autoconf
+autoconf.pre_args
+autoconf.args
+autoconf.dir ${worksrcpath}/src
+
+configure.args      --disable-gui \
+                    --without-x \
+                    --disable-gpm \
+                    --mandir=${prefix}/share/man \
+                    --with-tlib=ncurses \
+                    --enable-multibyte \
+                    --with-developer-dir=${developer_dir} \
+                    --enable-fail-if-missing
 
 post-destroot {
     ln -s ${prefix}/bin/vim ${destroot}${prefix}/bin/vi
