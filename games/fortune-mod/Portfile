@@ -6,7 +6,7 @@ PortSystem          1.0
 name                fortune-mod
 version             1.99.1
 set deb_revision    7
-revision            1
+revision            0
 categories          games
 platforms           darwin freebsd
 maintainers         gmail.com:israelchauca
@@ -21,9 +21,9 @@ long_description    When  fortune  is run with no arguments it prints out a \
                     those which are potentially offensive and those which are \
                     not.
 
-homepage            http://packages.qa.debian.org/f/fortune-mod.html
+homepage            https://tracker.debian.org/pkg/fortune-mod
 master_sites        debian:/f/${name}
-patch_sites         http://patch-tracker.debian.org/patch/series/dl/fortune-mod/1:${version}-${deb_revision}
+patch_sites         http://anonscm.debian.org/cgit/collab-maint/fortune-mod.git/plain/debian/patches
 distname            ${name}_${version}.orig
 worksrcdir          ${name}-${version}
 
@@ -33,6 +33,24 @@ checksums           ${distname}${extract.suffix} \
                     changes_outside_debian_subdir_1.99.1-4.diff \
                         rmd160 e9e96cf325601ccfbfd1a84b8e4ab0b807837a70 \
                         sha256 af69bdb83ec2f0aaae2f227950a859c2efc958f6a92d6d8ac016585be8b9651e \
+                    datfiles.diff \
+                        rmd160 382b8fbab5be443f21312db28aa3f952c051a4e8 \
+                        sha256 90b096f14736860edb83ffd49cad7d660ec03eb91458874896d5e94bd447bf43 \
+                    readme.diff \
+                        rmd160 74f7566a93d699ba3a910e0d7c801b1aa40170ca \
+                        sha256 6119aaf15f6a24cea4a9928fe0d54a8e4fc7e338e31ccac4eb01628b2779e8a4 \
+                    todo.diff \
+                        rmd160 a0f40818a9cd0739c294762844875d1604246b64 \
+                        sha256 27cf1f564c756b7c659c44ee8cf4f7b87e5903500fc5d333cd31032f32a93b02 \
+                    man.diff \
+                        rmd160 a09872ace586247726ea7c0ccb0b7537602f3086 \
+                        sha256 16129d3b685900e93a4f2c3ccbc7beb3d544342942440d3d7b2d8c2470abda17 \
+                    fortune.c.diff \
+                        rmd160 24248b6543d61ffbe8df230987654bcf82e442a7 \
+                        sha256 c4ade1f97992e468b3f28b55305ea03cb2628237d8f8c4c2438be06e1715224e \
+                    fortune-clean.py.diff \
+                        rmd160 aca11d6dc9fbfef43d1290c34ce166a8126b2c1d \
+                        sha256 d9bc21010ffb1c373441bec5c8b0b2a58ffe714dbedbb4b92825d575019883b9 \
                     dennis-ritchie.diff \
                         rmd160 b18f3f5d2d060fa1308f793664d8e678962eebb1 \
                         sha256 fa212eda5ecba1b071fe80eadb734a1cea179e8808d61ffcd8d8c76736b3381d \
@@ -62,12 +80,47 @@ checksums           ${distname}${extract.suffix} \
                         sha256 6a565f1b55943acb3c0c104d6b9b9f7627f829d20a73f5bc475e24091598a66f \
                     typo_in_manpage.diff \
                         rmd160 b26ef1b175ef602dfa91ae169d90e2a48a5a298e \
-                        sha256 3040bbbc376c319430e9d5240f4ae0c3db55777abcea74f91b3fc7dea5f73322
+                        sha256 3040bbbc376c319430e9d5240f4ae0c3db55777abcea74f91b3fc7dea5f73322 \
+                    irish_ballad.diff \
+                        rmd160 ba0a78f3d99ea4a6bfdac19d6915997e41d259fb \
+                        sha256 cfd2278a6370e901edc7de6f48d6fd1ec84d30574a5836a3dd87a419e594e956 \
+                    corbet.diff \
+                        rmd160 b1d537cb4f0ff5d43683c1e76d4290d226a814d5 \
+                        sha256 d515223207923eb04384d6064ea4a89af4a90d027397311536059f56a52b6a02 \
+                    typo.diff \
+                        rmd160 12d208e623bfb256a2e0e8a5a08e6d4eafb12ad1 \
+                        sha256 dcab54f8b194aa278513afeae22324324f1fc38e1133573d8325f651399745c7 \
+                    manpage_bugs.diff \
+                        rmd160 d5bc95ac36c646ac72e0e86c56c36b8ee7cc2fbb \
+                        sha256 6d5c8032731f982e0d430e9672b9e806c67af3f03f4101f3f1ea5f9cad7e0078 \
+                    songs-poems.diff \
+                        rmd160 d9c30e8ce0b592780b289d51720a36f4da3bd20f \
+                        sha256 5cab3c0bb2735bf251f0cac7cf989364fd0347485d1acd0145cf3ed0768c6d20 \
+                    mark_twain.diff \
+                        rmd160 0d166b9de77840814e9a3d059235509410f33d53 \
+                        sha256 87ba422ad14b51a1fcebd95ff2eeae19b4eb2b4d66f195b4568f8a54ee3e5d0f \
+                    autocad.diff \
+                        rmd160 25611ef455b4a5350759af708c77d74803d6585f \
+                        sha256 f9e43fda38c170ac633fd124bca31dfd3dcec3b21644627e2bc48978c178bb1d \
+                    lawyers.diff \
+                        rmd160 51abb1f95c122e9fd269948d6c70c72d4766619e \
+                        sha256 84b8cbf14f56db776d9651cf42389d11f5439475f7d50c67aba7f5fb18a779e0 \
+                    politics.diff \
+                        rmd160 d173c0dc0b70afd63b0d10e612d35a10ed63c639 \
+                        sha256 46e5133e7b432d79b5ff5428ce76f47d59ce36589306080a529acd1e4fd61f52 \
+                    off-wrong-man.diff \
+                        rmd160 37329d59afaa2b17daf5bfbe7f26dddb30c8ece4 \
+                        sha256 280fdea8c5fbd68754a3f6ce8a3dd9d259205a2eee464ce581c5343b0660d3b2
 
 conflicts           fortune
 
 # Debian patches:
-patchfiles          changes_outside_debian_subdir_1.99.1-4.diff \
+patchfiles          datfiles.diff \
+                    readme.diff \
+                    todo.diff \
+                    man.diff \
+                    fortune.c.diff \
+                    fortune-clean.py.diff \
                     shortcut_cookie_lists_build_system.diff \
                     typo_in_manpage.diff \
                     respect_buildflags.diff \
@@ -77,7 +130,17 @@ patchfiles          changes_outside_debian_subdir_1.99.1-4.diff \
                     dennis-ritchie.diff \
                     search_LOCFORTDIR_even_if_LANG_not_set.diff \
                     remove_backspaces.diff \
-                    rochefoucauld.diff
+                    rochefoucauld.diff \
+                    irish_ballad.diff \
+                    corbet.diff \
+                    typo.diff \
+                    manpage_bugs.diff \
+                    songs-poems.diff \
+                    mark_twain.diff \
+                    autocad.diff \
+                    lawyers.diff \
+                    politics.diff \
+                    off-wrong-man.diff
 # Local patches:
 patchfiles-append   patch-fix-paths.diff
 
@@ -102,7 +165,4 @@ variant no_offensive description {Do not install offensive fortune files.} {
 
 livecheck.version   ${version}-${deb_revision}
 livecheck.type      regex
-livecheck.url       ${homepage}
-livecheck.regex     latest_version">1:(\[-0-9.\]+)<
-
-# http://patch-tracker.debian.org/patch/series/dl/fortune-mod/1:1.99.1-7/
+livecheck.regex     1:(\[-0-9.\]+)
