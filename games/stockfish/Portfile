@@ -3,21 +3,21 @@
 
 PortSystem            1.0
 name                  stockfish
-version               dd
+version               5
 revision              0
 categories            games
 platforms             darwin
 license               GPL-3
 maintainers           gmail.com:israelchauca
 description           Powerful open source chess engine.
-long_description      Stockfish is no slouch, it plays on the same level as \
-                      commercial engines like Rybka and Houdini. And it's the \
-                      most powerful open source chess engine in the world.
+long_description      Stockfish is the strongest chess engine in the world. \
+                      Period. You're getting the best-of-the-best in chess \
+                      analysis.
 homepage              http://stockfishchess.org/
 distname              ${name}-${version}-src
 master_sites          https://s3.amazonaws.com/${name}/
-checksums             rmd160 b0d8c0488adf0d31d654dcdefb0beea8f7590b2d \
-                      sha256 9871b81520d89e4464e23e6bd18459f6a622848d5364974c6e7bcc6dc6523dd6
+checksums             rmd160 fdd29256d279dc3ab586646f3c511d416cc38c1d \
+                      sha256 071f5f9cc5c461e42462c3bc2f65ea96b8ca3de5048b927f82c609017c9392c2
 
 use_zip               yes
 fetch.ignore_sslcert  yes
@@ -25,14 +25,23 @@ use_configure         no
 
 pre-build { set worksrcpath  ${worksrcpath}/src }
 build.target          build
+switch ${build_arch} {
+    x86_64  { build.post_args ARCH=x86-64 }
+    i386    { build.post_args ARCH=x86-32 }
+    ppc     { build.post_args ARCH=ppc-32 }
+    defaul  { build.post_args ARCH=x86-64 }
+}
 destroot.args         PREFIX=${destroot}${prefix}
-post-destroot {
+destroot {
+    set sfdir ${destroot}${prefix}/etc/${name}
+    xinstall -d ${sfdir}
+    xinstall ${worksrcpath}/stockfish ${sfdir}
+    xinstall ${workpath}/${distname}/polyglot.ini ${sfdir}
     if { [file exists ${workpath}/Book.bin] } {
-        xinstall -m 0644 ${workpath}/Book.bin "${destroot}${prefix}/bin"
+        xinstall -m 0644 ${workpath}/Book.bin ${sfdir}
     }
 }
 
-default_variants +x86_64 +clang +book
 variant book description {install the Stockfish opening book.} {
     distfiles         ${distname}${extract.suffix}:src \
                       stockfish-231-book.zip:contrib
@@ -43,22 +52,27 @@ variant book description {install the Stockfish opening book.} {
     append checksums " sha256 07ee06bcd3fe1c5e0d90a2d0aede8bac2dd31d52fb4e1c9bc477bb5a8939e414"
 }
 
-variant x86_64_modern conflicts x86_32 x86_64 description {64 bit with popcnt support.} {
-    build.post_args-append ARCH=osx-x86-64-modern
+variant x86_64_modern conflicts x86_32 x86_64 ppc_64 ppc_32 description {x86 64 bit with popcnt support.} {
+    build.post_args ARCH=x86-64-modern
 }
-variant x86_64 conflicts x86_32 x86_64_modern description {64 bit.} {
-    build.post_args-append ARCH=osx-x86-64
+variant x86_64 conflicts x86_32 x86_64_modern ppc_64 ppc_32 description {x86 64 bit.} {
+    build.post_args ARCH=x86-64
 }
-variant x86_32 conflicts x86_64 x86_64_modern description {32 bit.} {
-    build.post_args-append ARCH=osx-x86-32
+variant x86_32 conflicts x86_64 x86_64_modern ppc_64 ppc_32 description {x86 32 bit.} {
+    build.post_args ARCH=x86-32
+}
+variant ppc_64 conflicts x86_32 x86_64 x86_64_modern ppc_32 description {PowerPC 64 bit.} {
+    build.post_args ARCH=ppc-64
+}
+variant ppc_32 conflicts x86_32 x86_64 x86_64_modern ppc_64 description {PowerPC 32 bit.} {
+    build.post_args ARCH=ppc-32
 }
 variant gcc conflicts clang description {Compile with gcc.} {
-    build.post_args-append COMP=gcc
+    build.post_args-append  COMP=gcc
 }
 variant clang conflicts gcc description {Compile with clang.} {
-    build.post_args-append COMP=clang
+    build.post_args-append  COMP=clang
 }
 livecheck.type        regex
-livecheck.url         http://stockfishchess.org/download/
-#livecheck.regex       /${name}-(\[0-9.\])-src.zip
-livecheck.regex       /${name}-(dd)-src.zip
+livecheck.url         https://github.com/official-stockfish/Stockfish/releases
+livecheck.regex       sf_(\[0-9.\])"
