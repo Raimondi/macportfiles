@@ -159,8 +159,8 @@ destroot.destdir    prefix=${destroot}${prefix}
 
 variant universal {}
 
-variant no_offensive description {Do not install offensive fortune files.} {
-    destroot.post_args-append OFFENSIVE=0
+variant offensive description {Install offensive fortune files.} {
+    destroot.post_args-append OFFENSIVE=1
 }
 
 livecheck.version   ${version}-${deb_revision}

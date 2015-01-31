@@ -1,0 +1,27 @@
+diff --git a/Users/israel/Downloads/clippy.cow b/Users/israel/Downloads/clippy.cow
+new file mode 100644
+index 0000000..f510d66
+--- /dev/null
++++ cows/clippy.cow
+@@ -0,0 +1,21 @@
++##
++## Good old clippy
++##
++$the_cow = <<"EOC";
++   $thoughts     ___
++    $thoughts   /   \\
++     $thoughts /     \\
++      /       \\
++    ___       ___
++   /___\\     /___\\
++   \\*__/     \\*__/
++     |        |
++     | |      | |
++     | |      | |
++     | |      | |
++     |  \\    /  |
++     |   \\__/   |
++      \\        /
++       \\      /
++        \\____/
++EOC

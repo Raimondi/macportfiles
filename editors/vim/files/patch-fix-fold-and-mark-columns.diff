@@ -1,0 +1,286 @@
+diff -r 3d9d6241de2b src/screen.c
+--- src/screen.c	Wed Sep 24 13:26:44 2014 +0200
++++ src/screen.c	Wed Sep 24 18:47:56 2014 +0200
+@@ -117,7 +117,8 @@
+ static schar_T	*current_ScreenLine;
+ 
+ static void win_update __ARGS((win_T *wp));
+-static void win_draw_end __ARGS((win_T *wp, int c1, int c2, int row, int endrow, hlf_T hl));
++static void draw_end_of_buffer __ARGS((win_T *wp, int row));
++static void draw_end_of_screen __ARGS((win_T *wp, int c1, int c2, int row, int endrow, hlf_T hl));
+ #ifdef FEAT_FOLDING
+ static void fold_line __ARGS((win_T *wp, long fold_count, foldinfo_T *foldinfo, linenr_T lnum, int row));
+ static void fill_foldcolumn __ARGS((char_u *p, win_T *wp, int closed, linenr_T lnum));
+@@ -2108,7 +2109,7 @@
+ 	}
+ 	else
+ 	{
+-	    win_draw_end(wp, '@', ' ', srow, wp->w_height, HLF_AT);
++	    draw_end_of_screen(wp, '@', ' ', srow, wp->w_height, HLF_AT);
+ 	    wp->w_botline = lnum;
+ 	}
+     }
+@@ -2133,7 +2134,7 @@
+ 		    i = fill_diff;
+ 		if (row + j > wp->w_height)
+ 		    j = wp->w_height - row;
+-		win_draw_end(wp, i, i, row, row + (int)j, HLF_DED);
++		draw_end_of_screen(wp, i, i, row, row + (int)j, HLF_DED);
+ 		row += j;
+ 	    }
+ #endif
+@@ -2143,7 +2144,7 @@
+ 
+ 	/* make sure the rest of the screen is blank */
+ 	/* put '~'s on rows that aren't part of the file. */
+-	win_draw_end(wp, '~', ' ', row, wp->w_height, HLF_AT);
++	draw_end_of_buffer(wp, row);
+     }
+ 
+     /* Reset the type of redrawing required, the window has been updated. */
+@@ -2212,11 +2213,59 @@
+ #endif
+ 
+ /*
++ * All lines after the last line in the buffer will be filled
++ * with lines holding only '~' in the beginning.
++ */
++    static void
++draw_end_of_buffer(wp, row)
++    win_T	*wp;
++    int		row;
++{
++#ifdef FEAT_RIGHTLEFT
++    if (wp->w_p_rl)
++    {
++	/* clear everything after the last line in
++	 * the buffer except for the first column */
++	screen_fill(W_WINROW(wp) + row,
++		    W_WINROW(wp) + wp->w_height,
++		    W_WINCOL(wp),
++		    W_ENDCOL(wp) - 1,
++		    ' ',
++		    ' ',
++		    hl_attr(HLF_AT));
++	/* fill the first column (mind the 'rl')
++	 * with '~' characters */
++	screen_fill(W_WINROW(wp) + row,
++		    W_WINROW(wp) + wp->w_height,
++		    W_ENDCOL(wp) - 1,
++		    W_ENDCOL(wp),
++		    '~',
++		    ' ',  /* not used */
++		    hl_attr(HLF_AT));
++    }
++    else
++#endif
++    {
++	/* clear everything after the last line in the buffer
++	 * and fill the first column with '~' characters */
++	screen_fill(W_WINROW(wp) + row,
++		    W_WINROW(wp) + wp->w_height,
++		    W_WINCOL(wp),
++		    W_ENDCOL(wp),
++		    '~',
++		    ' ',
++		    hl_attr(HLF_AT));
++    }
++
++    set_empty_rows(wp, row);
++}
++
++/*
+  * Clear the rest of the window and mark the unused lines with "c1".  use "c2"
+  * as the filler character.
+  */
+     static void
+-win_draw_end(wp, c1, c2, row, endrow, hl)
++draw_end_of_screen(wp, c1, c2, row, endrow, hl)
+     win_T	*wp;
+     int		c1;
+     int		c2;
+@@ -2225,8 +2274,8 @@
+     hlf_T	hl;
+ {
+ #if defined(FEAT_FOLDING) || defined(FEAT_SIGNS) || defined(FEAT_CMDWIN)
+-    int		n = 0;
+-# define FDC_OFF n
++    int		width = 0;
++# define FDC_OFF width
+ #else
+ # define FDC_OFF 0
+ #endif
+@@ -2236,38 +2285,53 @@
+     {
+ 	/* No check for cmdline window: should never be right-left. */
+ # ifdef FEAT_FOLDING
+-	n = wp->w_p_fdc;
+-
+-	if (n > 0)
++	width = wp->w_p_fdc;
++
++	if (width > 0)
+ 	{
+ 	    /* draw the fold column at the right */
+-	    if (n > W_WIDTH(wp))
+-		n = W_WIDTH(wp);
+-	    screen_fill(W_WINROW(wp) + row, W_WINROW(wp) + endrow,
+-		    W_ENDCOL(wp) - n, (int)W_ENDCOL(wp),
+-		    ' ', ' ', hl_attr(HLF_FC));
++	    if (width > W_WIDTH(wp))
++		width = W_WIDTH(wp);
++	    screen_fill(W_WINROW(wp) + row,
++			W_WINROW(wp) + endrow,
++			W_ENDCOL(wp) - width,
++			W_ENDCOL(wp),
++		        ' ',
++			' ',
++			hl_attr(HLF_FC));
+ 	}
+ # endif
+ # ifdef FEAT_SIGNS
+ 	if (draw_signcolumn(wp))
+ 	{
+-	    int nn = n + 2;
+-
++	    int width_tmp = width + 2;
+ 	    /* draw the sign column left of the fold column */
+-	    if (nn > W_WIDTH(wp))
+-		nn = W_WIDTH(wp);
+-	    screen_fill(W_WINROW(wp) + row, W_WINROW(wp) + endrow,
+-		    W_ENDCOL(wp) - nn, (int)W_ENDCOL(wp) - n,
+-		    ' ', ' ', hl_attr(HLF_SC));
+-	    n = nn;
+-	}
+-# endif
+-	screen_fill(W_WINROW(wp) + row, W_WINROW(wp) + endrow,
+-		W_WINCOL(wp), W_ENDCOL(wp) - 1 - FDC_OFF,
+-		c2, c2, hl_attr(hl));
+-	screen_fill(W_WINROW(wp) + row, W_WINROW(wp) + endrow,
+-		W_ENDCOL(wp) - 1 - FDC_OFF, W_ENDCOL(wp) - FDC_OFF,
+-		c1, c2, hl_attr(hl));
++	    if (width_tmp > W_WIDTH(wp))
++		width_tmp = W_WIDTH(wp);
++	    screen_fill(W_WINROW(wp) + row,
++			W_WINROW(wp) + endrow,
++			W_ENDCOL(wp) - width_tmp,
++			W_ENDCOL(wp) - width,
++		        ' ',
++			' ',
++			hl_attr(HLF_SC));
++	    width = width_tmp;
++	}
++# endif
++	screen_fill(W_WINROW(wp) + row,
++		    W_WINROW(wp) + endrow,
++		    W_WINCOL(wp),
++		    W_ENDCOL(wp) - 1 - FDC_OFF,
++		    c2,
++		    c2,
++		    hl_attr(hl));
++	screen_fill(W_WINROW(wp) + row,
++		    W_WINROW(wp) + endrow,
++		    W_ENDCOL(wp) - 1 - FDC_OFF,
++		    W_ENDCOL(wp) - FDC_OFF,
++		    c1,
++		    c2,
++		    hl_attr(hl));
+     }
+     else
+ #endif
+@@ -2276,45 +2340,59 @@
+ 	if (cmdwin_type != 0 && wp == curwin)
+ 	{
+ 	    /* draw the cmdline character in the leftmost column */
+-	    n = 1;
+-	    if (n > wp->w_width)
+-		n = wp->w_width;
+-	    screen_fill(W_WINROW(wp) + row, W_WINROW(wp) + endrow,
+-		    W_WINCOL(wp), (int)W_WINCOL(wp) + n,
+-		    cmdwin_type, ' ', hl_attr(HLF_AT));
++	    width = 1;
++	    if (width > wp->w_width)
++		width = wp->w_width;
++	    screen_fill(W_WINROW(wp) + row,
++			W_WINROW(wp) + endrow,
++			W_WINCOL(wp),
++			W_WINCOL(wp) + width,
++			cmdwin_type,
++			' ',
++			hl_attr(HLF_AT));
+ 	}
+ #endif
+ #ifdef FEAT_FOLDING
+ 	if (wp->w_p_fdc > 0)
+ 	{
+-	    int	    nn = n + wp->w_p_fdc;
+-
++	    int width_tmp = width + wp->w_p_fdc;
+ 	    /* draw the fold column at the left */
+-	    if (nn > W_WIDTH(wp))
+-		nn = W_WIDTH(wp);
+-	    screen_fill(W_WINROW(wp) + row, W_WINROW(wp) + endrow,
+-		    W_WINCOL(wp) + n, (int)W_WINCOL(wp) + nn,
+-		    ' ', ' ', hl_attr(HLF_FC));
+-	    n = nn;
++	    if (width_tmp > W_WIDTH(wp))
++		width_tmp = W_WIDTH(wp);
++	    screen_fill(W_WINROW(wp) + row,
++			W_WINROW(wp) + endrow,
++			W_WINCOL(wp) + width,
++			W_WINCOL(wp) + width_tmp,
++			' ',
++			' ',
++			hl_attr(HLF_FC));
++	    width = width_tmp;
+ 	}
+ #endif
+ #ifdef FEAT_SIGNS
+ 	if (draw_signcolumn(wp))
+ 	{
+-	    int	    nn = n + 2;
+-
++	    int width_tmp = width + 2;
+ 	    /* draw the sign column after the fold column */
+-	    if (nn > W_WIDTH(wp))
+-		nn = W_WIDTH(wp);
+-	    screen_fill(W_WINROW(wp) + row, W_WINROW(wp) + endrow,
+-		    W_WINCOL(wp) + n, (int)W_WINCOL(wp) + nn,
+-		    ' ', ' ', hl_attr(HLF_SC));
+-	    n = nn;
+-	}
+-#endif
+-	screen_fill(W_WINROW(wp) + row, W_WINROW(wp) + endrow,
+-		W_WINCOL(wp) + FDC_OFF, (int)W_ENDCOL(wp),
+-		c1, c2, hl_attr(hl));
++	    if (width_tmp > W_WIDTH(wp))
++		width_tmp = W_WIDTH(wp);
++	    screen_fill(W_WINROW(wp) + row,
++			W_WINROW(wp) + endrow,
++			W_WINCOL(wp) + width,
++			W_WINCOL(wp) + width_tmp,
++			' ',
++			' ',
++			hl_attr(HLF_SC));
++	    width = width_tmp;
++	}
++#endif
++	screen_fill(W_WINROW(wp) + row,
++		    W_WINROW(wp) + endrow,
++		    W_WINCOL(wp) + FDC_OFF,
++		    W_ENDCOL(wp),
++		    c1,
++		    c2,
++		    hl_attr(hl));
+     }
+     set_empty_rows(wp, row);
+ }
+@@ -5471,7 +5549,7 @@
+ #endif
+ 		    )
+ 	    {
+-		win_draw_end(wp, '@', ' ', row, wp->w_height, HLF_AT);
++		draw_end_of_screen(wp, '@', ' ', row, wp->w_height, HLF_AT);
+ #ifdef FEAT_VERTSPLIT
+ 		draw_vsep_win(wp, row);
+ #endif
