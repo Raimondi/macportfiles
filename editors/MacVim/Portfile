@@ -6,7 +6,7 @@ name                MacVim-dev
 set vim_version     7.3
 set snapshot        66
 set gitcommit       master
-version             7.4.103
+version             7.4.712
 revision            0
 categories          editors
 platforms           darwin
@@ -18,7 +18,8 @@ long_description \
     better and integrate more seamlessly with the Mac than vim-app.
 homepage            http://code.google.com/p/macvim
 
-master_sites        http://github.com/b4winckler/macvim/zipball/${gitcommit}
+#master_sites        http://github.com/b4winckler/macvim/zipball/${gitcommit}
+master_sites        http://github.com/macvim-dev/macvim/zipball/${gitcommit}
 checksums           rmd160  7837828c4ca5ee4bbbd36be724fc3029de989885 \
                     sha256  f8e317393a2cb78e459f8a430d392bcba85b89e19afc5e9692b1b239aee8b8fe
 use_zip             yes
@@ -61,7 +62,7 @@ checksum {}
 
 post-extract {
     # github zipball has root folder including commitish, renaming for ease of use
-    file rename [glob ${workpath}/b4winckler-*] ${worksrcpath}
+    file rename [glob ${workpath}/macvim-dev-*] ${worksrcpath}
 
     # create cache directory
     file mkdir ${workpath}/caches

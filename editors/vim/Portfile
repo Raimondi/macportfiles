@@ -2,10 +2,11 @@
 
 PortSystem          1.0
 
-name                vim-hg
+name                vim-dev
 set vim_version     7.3
-set gitcommit       master
-version             7.4.589
+#set gitcommit       master
+#set gitcommit       17cf3bd97847dd0f7ac69ed901ef51eca788f28c
+version             7.4.729
 revision            0
 categories          editors
 platforms           darwin freebsd
@@ -23,9 +24,10 @@ distname            vim-${vim_version}
 #use_zip             yes
 dist_subdir         ${name}/${vim_version}_2
 worksrcdir          ${name}
-fetch.type          hg
-hg.url              https://code.google.com/p/vim/
-hg.tag              tip
+fetch.type          git
+git.url             https://github.com/vim/vim.git
+#git.branch          17cf3bd97847dd0f7ac69ed901ef51eca788f28c
+git.branch          master
 
 # Use MacPorts' default compilers
 # http://trac.macports.org/wiki/UsingTheRightCompiler

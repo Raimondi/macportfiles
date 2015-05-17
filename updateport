@@ -1,14 +1,22 @@
 #!/usr/bin/env zsh
-echo "Updating versions on local dev ports..."
-update_port_versions.sh
+#echo "Updating versions on local dev ports..."
+#update_port_versions.sh
+export LANG=C
+cd /opt/mports/trunk/ && \
+svn update && \
+cd base && \
+./configure --enable-readline && \
+make && \
+make install && \
+make distclean && \
+cd .. && \
 port selfupdate && \
 port outdated > ~/playground/port_outdated.txt && \
 cat ~/playground/port_outdated.txt && sleep 1
-port upgrade outdated &&\
-port -f uninstall inactive && \
-port clean --all installed;
+port upgrade outdated
 port installed > ~/playground/port_installed.txt;
+port installed requested > ~/playground/port_installed_requested.txt;
 growlnotify -n port -s -p 2 -m 'Macport update has finished.'
-echo "Ports updated:"
-cat ~/playground/port_outdated.txt | sed -e 's/are outdated/were updated/' -e 's/</->/'
+#echo "Ports updated:"
+#cat ~/playground/port_outdated.txt | sed -e 's/are outdated/were updated/' -e 's/</->/'
 livecheckport
