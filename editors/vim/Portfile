@@ -4,8 +4,7 @@ PortSystem          1.0
 
 name                vim-dev
 set vim_version     7.3
-#set gitcommit       master
-#set gitcommit       17cf3bd97847dd0f7ac69ed901ef51eca788f28c
+set gitcommit       master
 version             7.4.729
 revision            0
 categories          editors
@@ -19,15 +18,11 @@ long_description \
 
 homepage            http://www.vim.org/
 
-#master_sites        http://github.com/b4winckler/vim/zipball/${gitcommit}
+master_sites        http://github.com/vim/vim/zipball/${gitcommit}
 distname            vim-${vim_version}
-#use_zip             yes
+use_zip             yes
 dist_subdir         ${name}/${vim_version}_2
 worksrcdir          ${name}
-fetch.type          git
-git.url             https://github.com/vim/vim.git
-#git.branch          17cf3bd97847dd0f7ac69ed901ef51eca788f28c
-git.branch          master
 
 # Use MacPorts' default compilers
 # http://trac.macports.org/wiki/UsingTheRightCompiler
@@ -40,6 +35,14 @@ post-patch {
 #patchfiles-append   patch-encoding-efm_perl.pl.diff
 
 checksum {}
+
+post-extract {
+    # github zipball has root folder including commitish, renaming for ease of use
+    file rename [glob ${workpath}/vim-*] ${worksrcpath}
+
+    # create cache directory
+    file mkdir ${workpath}/caches
+}
 
 depends_build       bin:grep:grep
 depends_lib         port:ncurses \
