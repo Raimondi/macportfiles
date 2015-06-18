@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
-#echo "Updating versions on local dev ports..."
-#update_port_versions.sh
+echo "Updating versions on local dev ports..."
+update_port_versions.sh
 export LANG=C
 cd /opt/mports/trunk/ && \
 svn update && \
@@ -13,6 +13,7 @@ cd .. && \
 port selfupdate && \
 port outdated > ~/playground/port_outdated.txt && \
 cat ~/playground/port_outdated.txt && sleep 1
+port clean --dist vim-dev
 port upgrade outdated
 port installed > ~/playground/port_installed.txt;
 port installed requested > ~/playground/port_installed_requested.txt;

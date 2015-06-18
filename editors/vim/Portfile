@@ -3,9 +3,9 @@
 PortSystem          1.0
 
 name                vim-dev
-set vim_version     7.3
+set vim_version     7.4
 set gitcommit       master
-version             7.4.729
+version             7.4.738
 revision            0
 categories          editors
 platforms           darwin freebsd
@@ -150,16 +150,6 @@ variant perl description {Enable Perl scripting} {
     configure.args-append   --enable-perlinterp
     depends_lib-append      path:bin/perl:perl5
 }
-variant python requires python25 description {Compatibility variant, requires +python25} {}
-variant python25 conflicts python26 python27 description {Enable Python scripting} {
-    configure.args-append   --enable-pythoninterp --with-python=${prefix}/bin/python2.5
-    patchfiles-append       patch-python.diff
-    depends_lib-append      port:python25
-
-    use_autoconf yes
-    # Overwriting autoconf.cmd above removes dependency, add it again
-    depends_build-append port:autoconf
-}
 variant python26 conflicts python25 python27 description {Enable Python scripting} {
     configure.args-append   --enable-pythoninterp --with-python=${prefix}/bin/python2.6
     patchfiles-append       patch-python.diff
@@ -173,24 +163,6 @@ variant python27 conflicts python25 python26 description {Enable Python scriptin
     configure.args-append   --enable-pythoninterp --with-python=${prefix}/bin/python2.7
     patchfiles-append       patch-python.diff
     depends_lib-append      port:python27
-
-    use_autoconf yes
-    # Overwriting autoconf.cmd above removes dependency, add it again
-    depends_build-append port:autoconf
-}
-variant python31 conflicts python32 python33 description {Enable Python scripting} {
-    configure.args-append   --enable-python3interp --with-python3=${prefix}/bin/python3.1
-    patchfiles-append       patch-python3.diff
-    depends_lib-append      port:python31
-
-    use_autoconf yes
-    # Overwriting autoconf.cmd above removes dependency, add it again
-    depends_build-append port:autoconf
-}
-variant python32 conflicts python31 python33 description {Enable Python scripting} {
-    configure.args-append   --enable-python3interp --with-python3=${prefix}/bin/python3.2
-    patchfiles-append       patch-python3.diff
-    depends_lib-append      port:python32
 
     use_autoconf yes
     # Overwriting autoconf.cmd above removes dependency, add it again
