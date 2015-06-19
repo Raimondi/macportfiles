@@ -7,10 +7,15 @@ VERSION=$VIMVERSION.$PATCHLEVEL
 PORTFILE=/Users/israel/ports/editors/vim/Portfile
 SHA=$(curl https://api.github.com/repos/vim/vim/commits/master 2>/dev/null | sed -n '/sha/{s/ *"sha": *"\([0-9a-f]*\)",/\1/;p;q;}')
 if [[ $VERSION =~ ^7\.[3-9a-zA-Z]+ ]]; then
-  if sed -i -e "s/^\(version  *\)[^ ]*\$/\1$VERSION/" $PORTFILE; then
-    echo "Vim's version updated to \"$VERSION\"."
+  if sed -i -e "s/^\(set vim_version  *\)[^ ]*\$/\1$VIMVERSION/" $PORTFILE; then
+    echo "Vim's version updated to \"$VIMVERSION\"."
   else
     echo "Could not update Vim's version." &>2
+  fi
+  if sed -i -e "s/^\(set vim_patchlevel  *\)[^ ]*\$/\1$PATCHLEVEL/" $PORTFILE; then
+    echo "Vim's patch level updated to \"$PATCHLEVEL\"."
+  else
+    echo "Could not update Vim's patch level" &>2
   fi
   if sed -i -e "/^set gitcommit/s/[0-9a-z]*\$/$SHA/" $PORTFILE; then
     echo "gitcommit updated to $SHA"
@@ -18,7 +23,7 @@ if [[ $VERSION =~ ^7\.[3-9a-zA-Z]+ ]]; then
     echo "Could not update gitcommit." &>2
   fi
 else
-  echo "There was a problem getting the current Vim's version: \"$VERSION\"." &>2
+  echo "There was a problem getting the Vim's current version: \"$VERSION\"." &>2
 fi
 
 # Update MacVim's Portfile

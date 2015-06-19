@@ -4,8 +4,9 @@ PortSystem          1.0
 
 name                vim-dev
 set vim_version     7.4
+set vim_patchlevel  738
 set gitcommit       29a50115a5b84656b6190c0172d5bcee4e589a2d
-version             7.4.738
+version             ${vim_version}.${vim_patchlevel}
 revision            0
 categories          editors
 platforms           darwin freebsd
@@ -19,9 +20,9 @@ long_description \
 homepage            http://www.vim.org/
 
 master_sites        http://github.com/vim/vim/zipball/${gitcommit}
-distname            vim-${vim_version}
+distname            $name-${vim_version}
 use_zip             yes
-dist_subdir         ${name}/${vim_version}_2
+dist_subdir         ${name}/${vim_version}
 worksrcdir          ${name}
 
 # Use MacPorts' default compilers
@@ -36,32 +37,14 @@ post-patch {
 
 checksum {}
 
-post-extract {
-    # github zipball has root folder including commitish, renaming for ease of use
-    file rename [glob ${workpath}/vim-*] ${worksrcpath}
-
-    # create cache directory
-    file mkdir ${workpath}/caches
-}
-
 depends_build       bin:grep:grep
 depends_lib         port:ncurses \
                     port:gettext \
                     port:libiconv
 
-autoconf.cmd make autoconf
-autoconf.dir ${worksrcpath}/src
-
-configure.args      --disable-gui \
-                    --without-x \
-                    --disable-gpm \
-                    --mandir=${prefix}/share/man \
-                    --with-tlib=ncurses \
-                    --enable-multibyte \
-                    --with-developer-dir=${developer_dir}
 post-extract {
     # github zipball has root folder including commitish, renaming for ease of use
-    #file rename [glob ${workpath}/b4winckler-*] ${worksrcpath}
+    file rename [glob ${workpath}/vim-*] ${worksrcpath}
 
     # create cache directory
     file mkdir ${workpath}/caches
@@ -140,16 +123,16 @@ variant xim description {Build with support for X Input Method} {
     configure.args-append --enable-xim
 }
 
-# FIXME: Does not work with vim 7.3 yet
-# variant shell description {Enables shell windows} {
-    # # Patch taken from http://www.wana.at/vimshell/
-    # patchfiles-append       patch-vimshell.diff
-# }
-
 variant perl description {Enable Perl scripting} {
     configure.args-append   --enable-perlinterp
     depends_lib-append      path:bin/perl:perl5
 }
+
+# Compatibility variants, can be removed after 2015-12-26
+variant python25 requires python27 description {Legacy variant} {}
+variant python31 requires python34 description {Legacy variant} {}
+variant python32 requires python34 description {Legacy variant} {}
+
 variant python26 conflicts python25 python27 description {Enable Python scripting} {
     configure.args-append   --enable-pythoninterp --with-python=${prefix}/bin/python2.6
     patchfiles-append       patch-python.diff
@@ -177,20 +160,6 @@ variant python33 conflicts python31 python32 description {Enable Python scriptin
     # Overwriting autoconf.cmd above removes dependency, add it again
     depends_build-append port:autoconf
 }
-
-variant racket description {Enable Lua scripting} {
-    configure.args-append   --enable-luainterp --with-lua-prefix=${prefix}
-    depends_lib-append  port:lua
-}
-variant lua description {Enable Lua scripting} {
-    configure.args-append   --enable-luainterp --with-lua-prefix=${prefix}
-    depends_lib-append  port:lua
-}
-variant luajit requires lua description {Link with LuaJIT instead of Lua} {
-    # Not sure what's wrong yet.
-    configure.args-append  --with-luajit
-    depends_lib-append  port:luajit
-}
 variant ruby requires ruby18 description {Compatibility variant, requires +ruby18} {}
 variant ruby18 conflicts ruby19 description {Enable Ruby scripting} {
     configure.args-append   --enable-rubyinterp
@@ -211,6 +180,15 @@ variant tcl description {Enable Tcl scripting} {
     # Overwriting autoconf.cmd above removes dependency, add it again
     depends_build-append port:autoconf
 }
+variant lua description {Enable Lua scripting} {
+    configure.args-append   --enable-luainterp --with-lua-prefix=${prefix}
+    depends_lib-append  port:lua
+}
+variant luajit requires lua description {Link with LuaJIT instead of Lua} {
+    # Not sure what's wrong yet.
+    configure.args-append  --with-luajit
+    depends_lib-append  port:luajit
+}
 
 variant cscope description {Enable source code browsing with cscope} {
     configure.args-append   --enable-cscope
@@ -220,7 +198,7 @@ platform puredarwin {
     configure.args-append --disable-darwin
 }
 
-#livecheck.type  regex
-#livecheck.url   http://ftp.vim.org/pub/${name}/patches/${vim_version}/?O=D
-#livecheck.version [format "%s.%03d" $vim_version $vim_patchlevel]
-#livecheck.regex (${vim_version}\.\\d+)
+livecheck.type  regex
+livecheck.url   https://github.com/vim/vim
+livecheck.version [format "%s.%03d" $vim_version $vim_patchlevel]
+livecheck.regex (\\m[regsub {\.} ${vim_version} {\\.}]\\.\\d+\\M)
