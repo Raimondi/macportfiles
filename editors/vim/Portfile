@@ -4,8 +4,8 @@ PortSystem          1.0
 
 name                vim-dev
 set vim_version     7.4
-set vim_patchlevel  738
-set gitcommit       29a50115a5b84656b6190c0172d5bcee4e589a2d
+set vim_patchlevel  748
+set gitcommit       cf3abd0e8cf94c427c54b0edf1bf78397671f12c
 version             ${vim_version}.${vim_patchlevel}
 revision            0
 categories          editors

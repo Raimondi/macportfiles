@@ -3,10 +3,9 @@
 PortSystem          1.0
 
 name                MacVim-dev
-set vim_version     7.3
 set snapshot        66
 set gitcommit       master
-version             7.4.712
+version             7.4.712.20150528
 revision            0
 categories          editors
 platforms           darwin
@@ -23,10 +22,6 @@ checksums           rmd160  7837828c4ca5ee4bbbd36be724fc3029de989885 \
                     sha256  f8e317393a2cb78e459f8a430d392bcba85b89e19afc5e9692b1b239aee8b8fe
 use_zip             yes
 worksrcdir          ${name}
-
-# 7.3.snapshot66 had a stealth update
-dist_subdir         ${name}/${version}_1
-
 
 depends_build       bin:gnutar:gnutar \
                     bin:grep:grep \

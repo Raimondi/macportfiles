@@ -44,3 +44,13 @@ if [[ $VERSION =~ ^7\.[3-9a-zA-Z]+ ]]; then
 else
   echo "There was a problem getting the current MacVim's version: \"$VERSION\"." &>2
 fi
+
+# Update Fish's Portfile
+PORTFILE=/Users/israel/ports/shells/fish-dev/Portfile
+SHA=$(curl https://api.github.com/repos/fish-shell/fish-shell/commits/master 2>/dev/null | sed -n '/sha/{s/ *"sha": *"\([0-9a-f]*\)",/\1/;p;q;}')
+
+if sed -i -e "/^github\\.setup/s/[0-9a-z]*\$/$SHA/" $PORTFILE; then
+  echo "git commit updated to $SHA"
+else
+    echo "Could not update git commit." &>2
+fi
