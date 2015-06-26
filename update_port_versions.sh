@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Update Vim's Portfile
+echo "Updating Vim's Portfile..."
 VIMVERSION=$(curl https://raw.githubusercontent.com/vim/vim/master/src/version.h 2>/dev/null | sed -n '/^#define VIM_VERSION_SHORT/{s/^#define VIM_VERSION_SHORT[[:blank:]]*"\([0-9.ab]*\)"/\1/;p;q;}')
 PATCHLEVEL=$(curl https://raw.githubusercontent.com/vim/vim/master/src/version.c 2>/dev/null | sed -n '/[0-9],$/{s/,//;s/[ \t]*//;p;q;}')
 VERSION=$VIMVERSION.$PATCHLEVEL
@@ -26,7 +26,7 @@ else
   echo "There was a problem getting the Vim's current version: \"$VERSION\"." &>2
 fi
 
-# Update MacVim's Portfile
+echo "Updating MacVim's Portfile..."
 unset VIMVERSION
 unset PATCHLEVEL
 unset VERSION
@@ -45,12 +45,19 @@ else
   echo "There was a problem getting the current MacVim's version: \"$VERSION\"." &>2
 fi
 
-# Update Fish's Portfile
+echo "Updating Fish's Portfile..."
 PORTFILE=/Users/israel/ports/shells/fish-dev/Portfile
 SHA=$(curl https://api.github.com/repos/fish-shell/fish-shell/commits/master 2>/dev/null | sed -n '/sha/{s/ *"sha": *"\([0-9a-f]*\)",/\1/;p;q;}')
+DATE=$(curl https://api.github.com/repos/fish-shell/fish-shell/commits/master 2>/dev/null | sed -n '/"date":/{s/^ *"date": *"//;s/[^0-9]*//g;p;q;}')
+
+if sed -i -e "/^version/s/[0-9]*\$/$DATE/" $PORTFILE; then
+  echo "Fish's version updated to $DATE"
+else
+    echo "Could not update Fish's version." &>2
+fi
 
 if sed -i -e "/^github\\.setup/s/[0-9a-z]*\$/$SHA/" $PORTFILE; then
-  echo "git commit updated to $SHA"
+  echo "Fish's git commit updated to $SHA"
 else
-    echo "Could not update git commit." &>2
+    echo "Could not update Fish's git commit." &>2
 fi
