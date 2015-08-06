@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 134857 2015-04-08 22:34:36Z ryandesign@macports.org $
+
+PortSystem              1.0
+PortGroup               github 1.0
+
+github.setup            mikewei micoro master
+license                 MIT
+categories              devel
+platforms               darwin
+maintainers             nomaintainer
+
+description             light weight, high performance coroutine implementation
+long_description        micoro (for MIcro COROutine & MIke's COROtine) is a \
+                        light weight, high performance coroutine implementation.
+
+homepage                https://github.com/mikewei/micoro
+#github.tarball_from     releases
+distname                ${name}-${version}
+
+#checksums               rmd160  109e3fbb07e36a6cf2b651b148d3a60eca9f8930 \
+#                        sha256  c6c20d5ca3a2a0168461de8abfe85f9e6b255132698ea0109998d4ab68f9f6dd
+checksum {}
+depends_build           port:pkgconfig
+depends_lib             port:libtool
+
+#patchfiles              patch-share_config_fish.diff
+
+use_autoreconf yes

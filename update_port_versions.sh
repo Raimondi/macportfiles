@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "running port sync"
+port -d sync
+
 echo "Updating Vim's Portfile..."
 VIMVERSION=$(curl https://raw.githubusercontent.com/vim/vim/master/src/version.h 2>/dev/null | sed -n '/^#define VIM_VERSION_SHORT/{s/^#define VIM_VERSION_SHORT[[:blank:]]*"\([0-9.ab]*\)"/\1/;p;q;}')
 PATCHLEVEL=$(curl https://raw.githubusercontent.com/vim/vim/master/src/version.c 2>/dev/null | sed -n '/[0-9],$/{s/,//;s/[ \t]*//;p;q;}')
@@ -61,3 +64,5 @@ if sed -i -e "/^github\\.setup/s/[0-9a-z]*\$/$SHA/" $PORTFILE; then
 else
     echo "Could not update Fish's git commit." &>2
 fi
+
+portindex ~/ports

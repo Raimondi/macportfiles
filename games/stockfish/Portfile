@@ -23,7 +23,9 @@ checksums             rmd160 ba9349cc7aec4cd4957f5e5682ac096e2e9b1588 \
 
 use_configure         no
 
-pre-build { set worksrcpath  ${worksrcpath}/src }
+pre-build {
+    set worksrcpath  ${worksrcpath}/src
+}
 
 build.target          build
 
@@ -31,7 +33,7 @@ switch ${build_arch} {
     x86_64  { build.post_args ARCH=x86-64 }
     i386    { build.post_args ARCH=x86-32 }
     ppc     { build.post_args ARCH=ppc-32 }
-    defaul  { build.post_args ARCH=x86-64 }
+    default { build.post_args ARCH=x86-64 }
 }
 
 destroot.args         PREFIX=${destroot}${prefix}

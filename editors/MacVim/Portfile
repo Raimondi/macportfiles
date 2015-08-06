@@ -5,7 +5,7 @@ PortSystem          1.0
 name                MacVim-dev
 set snapshot        66
 set gitcommit       master
-version             7.4.712.20150528
+version             7.4.769.20150706
 revision            0
 categories          editors
 platforms           darwin

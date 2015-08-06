@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 134857 2015-04-08 22:34:36Z ryandesign@macports.org $
+
+PortSystem          1.0
+
+name                coco-cpp
+version             2012-01-02
+categories          devel
+platforms           darwin
+license             GPL-2+
+maintainers         gmail.com:israelchauca
+description         Coco/R Compiler Generator (C++ Version)
+long_description    Coco/R (C++ version) is a compiler generator, which takes \
+                    an attributed grammar of a source language and generates \
+                    a scanner and a parser for this language.
+homepage            http://www.ssw.uni-linz.ac.at/coco/
+master_sites        ${homepage}CPP/
+distname            CocoSourcesCPP
+use_zip             yes
+use_configure       no
+extract.mkdir       yes
+destroot.destdir    DESTDIR=${destroot}${prefix}
+patchfiles          patch_Makefile
+
+checksums           rmd160  c354a494245cc4ae2db67ca5b2d459997b45092d \
+                    sha256  57f3e99da6524f0c349c6d6c4e2880e71cd581f295c35e08b91985aa9f6db106
+
+livecheck.type      regex
+livecheck.url       ${homepage}/CPP/log.html
+livecheck.regex     >(\\d{4}-\\d{2}-\\d{2})<
