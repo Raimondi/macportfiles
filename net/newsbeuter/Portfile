@@ -16,16 +16,21 @@ long_description        Newsbeuter is an open-source RSS/Atom feed reader for \
 
 homepage                http://www.newsbeuter.org/
 #github.tarball_from     releases
-use_configure     			no
+use_configure     		no
 checksums               rmd160  f95c5ec0d8529761d56f259e35d79e5ceb4ebac0 \
                         sha256  a2669c6a0d0b622a23d294ea780bfdbc0340d124faad6f38d8e44b2ddf7243bc
 
 depends_build           port:pkgconfig
 depends_lib             port:libxml2 \
-												port:stfl \
-												port:sqlite3 \
-												port:gettext \
-												port:curl \
-												port:ncurses
+						port:stfl \
+						port:sqlite3 \
+						port:gettext \
+						port:curl \
+						port:ncurses
 
 destroot.destdir    		prefix=${destroot}${prefix}
+
+post-destroot {
+    xinstall -d ${destroot}${prefix}/share/${name}
+    copy ${worksrcpath}/contrib ${destroot}${prefix}/share/${name}/contrib
+}
