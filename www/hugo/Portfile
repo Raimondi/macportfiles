@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem              1.0
+PortGroup               github 1.0
+
+github.setup            spf13 hugo 0.15 v
+github.tarball_from     releases
+revision                0
+categories              www
+platforms               darwin
+supported_archs         i386 x86_64
+maintainers             gmail.com:israelchauca
+license                 Apache-2
+homepage                https://gohugo.io/
+
+description             A Fast and Flexible Static Site Generator built with love in GoLang
+long_description        Hugo is a static HTML and CSS website generator written in Go. It \
+                        is optimized for speed, easy use and configurability. Hugo takes \
+                        a directory with content and templates and renders them into a \
+                        full HTML website.
+
+use_zip                 yes
+use_configure           no
+
+if {${configure.build_arch} == "i386"} {
+    set arch 386
+    checksums           rmd160 405cebee5870781e7beacd9aa863a2e49826c87c \
+                        sha256 f9b7353f9b64e7aece5f7981e5aa97dc4b31974ce76251edc070e77691bc03e2
+} elseif {${configure.build_arch} == "x86_64"} {
+    set arch amd64
+    checksums           rmd160 0c7e62d1890da75fe9ddde5391da70351de04089 \
+                        sha256 aeecd6a12d86ab920f5b04e9486474bbe478dc246cdc2242799849b84c61c6f1
+} else {
+    set arch ""
+}
+distname                ${name}_${version}_darwin_${arch}
+
+build {}
+destroot {
+    move ${worksrcpath}/${distname} ${destroot}/${prefix}/bin/
+    ln ${destroot}/${prefix}/bin/${distname} ${destroot}/${prefix}/bin/${name}
+}

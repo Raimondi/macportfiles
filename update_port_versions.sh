@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
 echo "running port sync"
-port -d sync
+/opt/local/bin/port -d sync
+
+LOCALPATH=/opt/mports.local
 
 echo "Updating Vim's Portfile..."
 VIMVERSION=$(curl https://raw.githubusercontent.com/vim/vim/master/src/version.h 2>/dev/null | sed -n '/^#define VIM_VERSION_SHORT/{s/^#define VIM_VERSION_SHORT[[:blank:]]*"\([0-9.ab]*\)"/\1/;p;q;}')
 PATCHLEVEL=$(curl https://raw.githubusercontent.com/vim/vim/master/src/version.c 2>/dev/null | sed -n '/[0-9],$/{s/,//;s/[ \t]*//;p;q;}')
 VERSION=$VIMVERSION.$PATCHLEVEL
-PORTFILE=/Users/israel/ports/editors/vim/Portfile
+PORTFILE=$LOCALPATH/editors/vim/Portfile
 SHA=$(curl https://api.github.com/repos/vim/vim/commits/master 2>/dev/null | sed -n '/sha/{s/ *"sha": *"\([0-9a-f]*\)",/\1/;p;q;}')
 if [[ $VERSION =~ ^7\.[3-9a-zA-Z]+ ]]; then
   if sed -i -e "s/^\(set vim_version  *\)[^ ]*\$/\1$VIMVERSION/" $PORTFILE; then
@@ -42,14 +44,14 @@ COMMITDATE=$(curl https://github.com/macvim-dev/macvim/commits/master 2>/dev/nul
   | sed 's/.* \([0-9][0-9]\) \([0-3][0-9]\), \([0-9]\{4\}\)/\3\1\2/')
 VERSION=$VIMVERSION.$PATCHLEVEL.$COMMITDATE
 if [[ $VERSION =~ ^7\.[3-9a-zA-Z]+ ]]; then
-  sed -i -e "s/^\(version  *\)[^ ]*\$/\1$VERSION/" /users/israel/ports/editors/MacVim/Portfile
+  sed -i -e "s/^\(version  *\)[^ ]*\$/\1$VERSION/" $LOCALPATH/editors/MacVim/Portfile
   echo "MacVim's version updated to \"$VERSION\"."
 else
   echo "There was a problem getting the current MacVim's version: \"$VERSION\"." &>2
 fi
 
 echo "Updating Fish's Portfile..."
-PORTFILE=/Users/israel/ports/shells/fish-dev/Portfile
+PORTFILE=$LOCALPATH/shells/fish-dev/Portfile
 SHA=$(curl https://api.github.com/repos/fish-shell/fish-shell/commits/master 2>/dev/null | sed -n '/sha/{s/ *"sha": *"\([0-9a-f]*\)",/\1/;p;q;}')
 DATE=$(curl https://api.github.com/repos/fish-shell/fish-shell/commits/master 2>/dev/null | sed -n '/"date":/{s/^ *"date": *"//;s/[^0-9]*//g;p;q;}')
 
@@ -65,4 +67,4 @@ else
     echo "Could not update Fish's git commit." &>2
 fi
 
-portindex ~/ports
+/opt/local/bin/portindex ~/ports
