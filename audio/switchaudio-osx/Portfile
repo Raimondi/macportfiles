@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem              1.0
+PortGroup               github 1.0
+PortGroup               xcode 1.0
+
+github.setup            deweller switchaudio-osx 1.0.0
+license                 MIT
+categories              audio
+platforms               darwin
+maintainers             gmail.com:israelchauca
+
+description             A command-line utility to switch the audio source on Mac OS X.
+long_description        This utility switches the audio source for Mac OS X. \
+                        You specify the name of the audio source, such as \
+                        Built-in Digital Output, and the utility switches the \
+                        source immediately without any GUI interaction.
+
+homepage                https://github.com/deweller/switchaudio-osx
+
+set xcode.destroot.path ${prefix}/bin
+
+checksums               rmd160 d5d35a48a1ac13a8057daa3fa3b568c556ad1d32 \
+                        sha256 5cacf0e7eb66771b1e92bc753e4a4a07f3d4f32c55463b361f29d25805504d14
