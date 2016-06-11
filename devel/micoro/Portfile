@@ -4,7 +4,7 @@
 PortSystem              1.0
 PortGroup               github 1.0
 
-github.setup            mikewei micoro master
+github.setup            mikewei micoro 1.0 v
 license                 MIT
 categories              devel
 platforms               darwin
@@ -15,15 +15,15 @@ long_description        micoro (for MIcro COROutine & MIke's COROtine) is a \
                         light weight, high performance coroutine implementation.
 
 homepage                https://github.com/mikewei/micoro
-#github.tarball_from     releases
+
 distname                ${name}-${version}
 
-#checksums               rmd160  109e3fbb07e36a6cf2b651b148d3a60eca9f8930 \
-#                        sha256  c6c20d5ca3a2a0168461de8abfe85f9e6b255132698ea0109998d4ab68f9f6dd
+checksums               rmd160  a252ab1bef704071cd11d9dc9d872ce032620391 \
+                        sha256  926aa77e4c2e512b4b738552c311dc3ac8efdee1ff6f18a1a77c5f25f074ce3e
 checksum {}
 depends_build           port:pkgconfig
 depends_lib             port:libtool
 
-#patchfiles              patch-share_config_fish.diff
+patchfiles              patch-configure.ac.diff
 
 use_autoreconf yes

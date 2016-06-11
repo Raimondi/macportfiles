@@ -3,9 +3,9 @@
 
 PortSystem            1.0
 PortGroup             github 1.0
-github.setup          official-stockfish Stockfish sf_6
-name                  stockfish
-version               6
+version               7
+github.setup          official-stockfish Stockfish sf_${version}
+name                  stockfish-local
 revision              0
 categories            games
 platforms             darwin
@@ -18,8 +18,8 @@ long_description      Stockfish is the strongest chess engine in the world. \
 homepage              http://stockfishchess.org/
 distname              ${name}-${version}-src
 
-checksums             rmd160 ba9349cc7aec4cd4957f5e5682ac096e2e9b1588 \
-                      sha256 1d2e1293e6ff627a0df193076d5a2b9e5359a9f7574eb04495999f7d5458b8d9
+checksums             rmd160 61e92a2f523a7376a10416eb9ee3d2a6a0bb24fc \
+                      sha256 e8c16e40ed9b02b105d47e6c4d18a429de1c1be0e3d9550044aa1fe24f4845fb
 
 use_configure         no
 

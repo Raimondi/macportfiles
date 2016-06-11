@@ -1,5 +1,5 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
-# $Id: Portfile 92350 2012-04-25 22:29:34Z ryandesign@macports.org $
+# $Id:$
 
 PortSystem          1.0
 
@@ -10,7 +10,6 @@ categories          devel
 platforms           darwin freebsd
 maintainers         gmail.com:israelchauca
 license             MIT
-#installs_libs       no
 
 description         Libtask is a simple coroutine library
 
@@ -33,6 +32,6 @@ pre-destroot {
   reinplace "s|/usr/local|${destroot}${prefix}|g" ${worksrcpath}/Makefile
 }
 
-livecheck.type      md5
-livecheck.url       http://swtch.com/libtask.tar.gz
+livecheck.type      none
+livecheck.url       ${master_sites}${distfiles}
 livecheck.md5       1039e58dcabaff26bc517cea8718a5ed
