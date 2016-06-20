@@ -67,4 +67,21 @@ else
     echo "Could not update Fish's git commit." &>2
 fi
 
+echo "Updating iTerm2-tip's Portfile..."
+PORTFILE=$LOCALPATH/aqua/iTerm2-tip/Portfile
+SHA=$(curl https://api.github.com/repos/gnachman/iTerm2/commits/master 2>/dev/null | sed -n '/sha/{s/ *"sha": *"\([0-9a-f]*\)",/\1/;p;q;}')
+DATE=$(curl https://api.github.com/repos/gnachman/iTerm2/commits/master 2>/dev/null | sed -n '/"date":/{s/^ *"date": *"//;s/[^0-9]*//g;p;q;}')
+
+if sed -i -e "/^version/s/[0-9]*\$/$DATE/" $PORTFILE; then
+  echo "iTerm2-tip's version updated to $DATE"
+else
+    echo "Could not update iTerm2-tip's version." &>2
+fi
+
+if sed -i -e "/^github\\.setup/s/[0-9a-z]*\$/$SHA/" $PORTFILE; then
+  echo "iTerm2-tip's git commit updated to $SHA"
+else
+    echo "Could not update iTerm2-tip's git commit." &>2
+fi
+
 /opt/local/bin/portindex ~/ports

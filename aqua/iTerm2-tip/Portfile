@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem  1.0
+PortGroup   github 1.0
+PortGroup   xcode 1.0
+
+github.setup gnachman iTerm2 1d7152c7ee76372a1a6e84bbf1e54827024c5cdc
+name        iTerm2-tip
+version     20160619232425
+categories  aqua shells
+maintainers gmail.com:israelchauca
+license         GPL-2+
+description Enhanced terminal emulator program, successor to iTerm
+long_description    \
+    iTerm2 is a replacement for Terminal and the successor to iTerm. Its focus is on \
+    performance, internationalization, and supporting innovative features \
+    that make your life better.
+
+homepage        http://iterm2.com/
+
+checksum {}
+
+xcode.project   iTerm2.xcodeproj
+xcode.target    iTerm2
+
+build.pre_args  -parallelizeTargets
+
+post-patch {
+    #reinplace "s|^version *= *.*$|version = \"${version}\"|" ${worksrcpath}/updateVersion.py
+    # disable Sparkle autoupdate
+    #reinplace "s|.*Sparkle.*||g" ${worksrcpath}/${xcode.project}/project.pbxproj
+}
+
+destroot {
+    file copy ${build.dir}/build/Deployment/iTerm2.app \
+        ${destroot}${applications_dir}/${name}.app
+}
+
+if {${os.platform} eq "darwin" && ${os.major} < 11} {
+    pre-fetch {
+        ui_error "${subport} @${version} requires Mac OS X 10.7 or newer"
+        return -code error "unsupported Mac OS X version"
+    }
+}
