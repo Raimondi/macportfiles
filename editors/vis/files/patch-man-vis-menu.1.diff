@@ -1,0 +1,18 @@
+--- man/vis-menu.1
++++ man/vis-menu.1
+@@ -223,7 +223,7 @@ or being run without a controlling terminal.
+ .Sh SEE ALSO
+ .Xr dmenu 1 ,
+ .Xr slmenu 1 ,
+-.Xr vis 1
++.Xr @VISEXEC@ 1
+ .
+ .Sh HISTORY
+ The original model for a single line menu reading items from standard input was
+@@ -244,5 +244,5 @@ did not appear to be maintained,
+ it was forked to become
+ .Nm vis-menu
+ to be distributed with
+-.Xr vis 1 .
++.Xr @VISEXEC@ 1 .
+ .

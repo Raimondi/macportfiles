@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 115783 2014-01-11 05:58:19Z larryv@macports.org $
+
+PortSystem          1.0
+
+name                HandBrake-cli
+version             0.9.9
+platforms           macosx
+categories          multimedia
+maintainers         raimondi
+license             GPL-2
+
+description         The open source video transcoder
+long_description    HandBrake is a tool for converting video from \
+                    nearly any format to a selection of modern, \
+                    widely supported codecs.
+homepage            http://handbrake.fr/
+
+pre-fetch {
+    if {${os.platform} eq "darwin" && ${os.major} < 10} {
+        ui_error "${name} ${version} requires OS X 10.6 or greater."
+        return -code error "incompatible OS X version"
+    }
+}
+
+use_dmg             yes
+#master_sites        http://handbrake.fr/rotation.php?file=${distname}${extract.suffix}&dummy=
+master_sites        sourceforge:project/handbrake/${version}/
+distname            HandBrake-${version}-MacOSX.6_CLI_x86_64
+checksums           md160  e247fa7df88ba17aca0e80ad14d73931ad566afd \
+                    ha256  120d7d0a9af5d15813d05781cbbf2599e454b4400f0266db4fa1acd4f62d244e
+
+
+extract.only        ${distname}${extract.suffix}
+
+# +universal would be possible, but not implemented yet
+# see ${worksrcpath}/doc/BUILD-Mac for details
+universal_variant   no
+
+destroot {
+    file copy ${worksrcpath}/build/xroot/${name}.app \
+        ${destroot}${applications_dir}/${name}.app
+}
+
+livecheck.url       http://handbrake.fr/downloads2.php
+livecheck.regex     "Command\s+Line\s+Version\s*:\s*(\\d+(?:\\.\\d+)*)"
+

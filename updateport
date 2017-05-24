@@ -2,24 +2,17 @@
 sudo echo "Updating versions on local dev ports..."
 update_port_versions.sh
 set -x LANG C
-cd /opt/mports/base
-#and svn update
-#and cd base
-port -d sync
-and ./configure --enable-readline
-and make
-and sudo make install
-#and make distclean
-and cd ..
 and sudo port selfupdate
 and port outdated > ~/playground/port_outdated.txt
 and cat ~/playground/port_outdated.txt
 and sleep 1
-sudo port clean --dist vim-dev
+sudo port clean --dist vim-edge
+sudo port deactivate iTerm2-edge
 sudo port upgrade outdated
-port installed > ~/playground/port_installed.txt
-port installed requested > ~/playground/port_installed_requested.txt
-#growlnotify -n port -s -p 2 -m 'Macport update has finished.'
-#echo "Ports updated:"
-#cat ~/playground/port_outdated.txt | sed -e 's/are outdated/were updated/' -e 's/</->/'
+printf '\a'
+sudo port activate iTerm2-edge
+or sudo port install iTerm2-edge
+sudo port upgrade outdated
+port installed > ~/Documents/Source/playground/port_installed.txt
+port installed requested > ~/Documents/Source/playground/port_installed_requested.txt
 livecheckport

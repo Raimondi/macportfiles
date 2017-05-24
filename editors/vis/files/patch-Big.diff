@@ -1,0 +1,161 @@
+--- Makefile
++++ Makefile
+@@ -7,7 +7,7 @@ SRC = array.c buffer.c libutf.c main.c map.c register.c ring-buffer.c \
+ 	ui-terminal.c view.c vis.c vis-lua.c vis-modes.c vis-motions.c \
+ 	vis-operators.c vis-prompt.c vis-text-objects.c $(REGEX_SRC)
+ 
+-ELF = vis vis-menu vis-digraph
++ELF = @VISEXEC@ vis-menu vis-digraph
+ EXECUTABLES = $(ELF) vis-clipboard vis-complete vis-open
+ 
+ MANUALS = $(EXECUTABLES:=.1)
+@@ -35,7 +35,7 @@ LDFLAGS_STD ?= -lc
+ CFLAGS_VIS = $(CFLAGS_AUTO) $(CFLAGS_TERMKEY) $(CFLAGS_CURSES) $(CFLAGS_ACL) \
+ 	$(CFLAGS_SELINUX) $(CFLAGS_TRE) $(CFLAGS_LUA) $(CFLAGS_LPEG) $(CFLAGS_STD)
+ 
+-CFLAGS_VIS += -DVIS_PATH=\"${SHAREPREFIX}/vis\"
++CFLAGS_VIS += -DVIS_PATH=\"${SHAREPREFIX}/@VISDIR@\"
+ CFLAGS_VIS += -DCONFIG_HELP=${CONFIG_HELP}
+ CFLAGS_VIS += -DCONFIG_CURSES=${CONFIG_CURSES}
+ CFLAGS_VIS += -DCONFIG_LUA=${CONFIG_LUA}
+@@ -57,7 +57,7 @@ config.h:
+ config.mk:
+ 	@touch $@
+ 
+-vis: config.h config.mk *.c *.h
++vise: config.h config.mk *.c *.h
+ 	${CC} ${CFLAGS} ${CFLAGS_VIS} ${CFLAGS_EXTRA} ${SRC} ${LDFLAGS} ${LDFLAGS_VIS} -o $@
+ 
+ vis-menu: vis-menu.c
+@@ -118,9 +118,9 @@ install: $(ELF)
+ 		chmod 755 ${DESTDIR}${PREFIX}/bin/"$$e"; \
+ 	done
+ 	@test ${CONFIG_LUA} -eq 0 || { \
+-		echo installing support files to ${DESTDIR}${SHAREPREFIX}/vis; \
+-		mkdir -p ${DESTDIR}${SHAREPREFIX}/vis; \
+-		cp -r lua/* ${DESTDIR}${SHAREPREFIX}/vis; \
++		echo installing support files to ${DESTDIR}${SHAREPREFIX}/@VISDIR@; \
++		mkdir -p ${DESTDIR}${SHAREPREFIX}/@VISDIR@; \
++		cp -r lua/* ${DESTDIR}${SHAREPREFIX}/@VISDIR@; \
+ 		rm -rf "${DESTDIR}${SHAREPREFIX}/vis/doc"; \
+ 	}
+ 	@echo installing manual pages to ${DESTDIR}${MANPREFIX}/man1
+--- man/vis-clipboard.1
++++ man/vis-clipboard.1
+@@ -94,7 +94,7 @@ vis-clipboard --paste | curl -d - https://www.nsa.gov/
+ .Sh SEE ALSO
+ .Xr pbcopy 1 ,
+ .Xr pbpaste 1 ,
+-.Xr vis 1 ,
++.Xr @VISEXEC@ 1 ,
+ .Xr xclip 1 ,
+ .Xr xsel 1
+ .
+--- man/vis-complete.1
++++ man/vis-complete.1
+@@ -69,7 +69,7 @@ prints nothing and sets its exit status to 1
+ if the user refused to select a file.
+ .
+ .Sh SEE ALSO
+-.Xr vis 1 ,
++.Xr @VISEXEC@ 1 ,
+ .Xr vis-menu 1
+ .
+ .Sh BUGS
+--- man/vis-digraph.1
++++ man/vis-digraph.1
+@@ -59,7 +59,7 @@ An error occured and digraph could not be read or printed.
+ .Sh SEE ALSO
+ .
+ .Xr locale 1 ,
+-.Xr vis 1
++.Xr @VISEXEC@ 1
+ .
+ .Sh STANDARDS
+ .
+--- man/vis-menu.1
++++ man/vis-menu.1
+@@ -223,7 +223,7 @@ or being run without a controlling terminal.
+ .Sh SEE ALSO
+ .Xr dmenu 1 ,
+ .Xr slmenu 1 ,
+-.Xr vis 1
++.Xr @VISEXEC@ 1
+ .
+ .Sh HISTORY
+ The original model for a single line menu reading items from standard input was
+@@ -244,5 +244,5 @@ did not appear to be maintained,
+ it was forked to become
+ .Nm vis-menu
+ to be distributed with
+-.Xr vis 1 .
++.Xr @VISEXEC@ 1 .
+ .
+--- man/vis-open.1
++++ man/vis-open.1
+@@ -97,7 +97,7 @@ fi
+ .Ed
+ .
+ .Sh SEE ALSO
+-.Xr vis 1 ,
++.Xr @VISEXEC@ 1 ,
+ .Xr vis-menu 1
+ .
+ .Sh BUGS
+--- man/vis.1
++++ man/vis.1
+@@ -1,10 +1,10 @@
+ .Dd January 14, 2017
+-.Dt VIS 1
++.Dt @VISMAN@ 1
+ .Os Vis VERSION
+ .
+ .Sh NAME
+ .
+-.Nm vis
++.Nm @VISEXEC@
+ .Nd a highly efficient text editor
+ .
+ .Sh SYNOPSIS
+@@ -1399,13 +1399,8 @@ refers to
+ if unset.
+ .
+ .It
+-.Pa /etc/vis
++.Pa @PREFIX@/etc/vis
+ for a system-wide configuration provided by administrator.
+-.It
+-.Pa /usr/local/share/vis
+-or
+-.Pa /usr/share/vis
+-depending on the build configuration.
+ .El
+ .
+ .Sh EXIT STATUS
+@@ -1418,7 +1413,7 @@ Use
+ .Nm
+ as an interactive filter.
+ .Pp
+-.Dl $ { echo Pick your number; seq 1 10; } | vis - > choice
++.Dl $ { echo Pick your number; seq 1 10; } | @VISEXEC@ - > choice
+ .Pp
+ Use the
+ .Xr vis-open 1
+@@ -1477,5 +1472,5 @@ is written by
+ .Sh BUGS
+ .
+ On some systems there already exists a
+-.Nm
++.Ic vis
+ binary, thus causing a name conflict.
+--- vis-lua.c
++++ vis-lua.c
+@@ -2493,7 +2493,7 @@ void vis_lua_init(Vis *vis) {
+ 			home = pw->pw_dir;
+ 	}
+ 
+-	vis_lua_path_add(vis, "/etc/vis");
++	vis_lua_path_add(vis, "@PREFIX@/etc/vis");
+ 
+ 	const char *xdg_config = getenv("XDG_CONFIG_HOME");
+ 	if (xdg_config) {

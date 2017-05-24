@@ -1,0 +1,532 @@
+#!/usr/bin/tclsh
+#
+# Generate a basic template Portfile given a few bits of information
+#
+# Todo:
+# Add more template code for the port groups that need them
+# Add more fields with comments perhaps, so the template is more fully
+#    ready for various uses
+# Add templates for most frequent use cases, maybe with other flag?
+#
+
+set MY_VERSION 0.3
+
+set supportedGroups [list               \
+            active_variants             \
+            apache2                     \
+            app                         \
+            archcheck                   \
+            bitbucket                   \
+            cmake                       \
+            compiler_blacklist_versions \
+            compilers                   \
+            conflicts_build             \
+            crossbinutils               \
+            crossgcc                    \
+            cxx11                       \
+            debug                       \
+            elisp                       \
+            github                      \
+            gnu_info                    \
+            gnustep                     \
+            gobject_introspection       \
+            haskell                     \
+            haskell-platform            \
+            hocbinding                  \
+            hunspelldict                \
+            java                        \
+            kde4                        \
+            linear-algebra              \
+            mpi                         \
+            muniversal                  \
+            obsolete                    \
+            ocaml                       \
+            octave                      \
+            pear                        \
+            perl5                       \
+            php                         \
+            php5pear                    \
+            pure                        \
+            python                      \
+            qmake                       \
+            qmake5                      \
+            qt4                         \
+            qt5                         \
+            ruby                        \
+            select                      \
+            texlive                     \
+            waf                         \
+            wxWidgets                   \
+            x11font                     \
+            xcode                       \
+            xcodeversion                \
+            xmlcatalog                  \
+            ]
+
+proc printUsage {{channel stderr}} {
+    puts $channel "Usage: $::argv0 \[-h\] \[-g portgroup\] <portname> <portversion>"
+    puts $channel "   -g   Specify a port group to use (perl5, python, etc)"
+    puts $channel "   -h   This help"
+    puts $channel ""
+    puts $channel "portname      name to use for the port; for group-based ports, don't"
+    puts $channel "              use the prefix (py-, p5-, etc) as this will add that"
+    puts $channel "              for you when needed. For github and bitbucket, use the"
+    puts $channel "              format repoowner/reponame."
+    puts $channel "portversion   version to use for the port"
+    puts $channel ""
+    puts $channel "These are the currently supported port groups:"
+    foreach supportedGroup ${::supportedGroups} {
+        puts $channel "    $supportedGroup"
+    }
+}
+
+set pfHeader             ""
+set pfGroups             ""
+set pfFirstOptions       ""
+set pfLastOptions        ""
+set pfBlocks             ""
+set pfFooter             ""
+set portname             ""
+set portnamer            ""
+set add_name             -1
+set add_version          1
+set add_homepage         1
+set append_categories    0
+set add_description      1
+set add_long_description 1
+set add_depends_build    0
+set add_depends_lib      0
+set add_configure.args   0
+set groupCode            ""
+set groupCodes           ""
+
+while {[string index [lindex $::argv 0] 0] eq "-"} {
+    switch [string range [lindex $::argv 0] 1 end] {
+        g {
+            if {[llength $::argv] < 2} {
+                puts stderr "-g needs a port group"
+                printUsage
+                exit 1
+            }
+            lappend groupCodes [lindex $::argv 1]
+            set groupCode [lindex $::argv 1]
+            if {[lsearch ${supportedGroups} ${groupCode}] == -1} {
+                puts stderr "Sorry, port group \"${groupCode}\" is currently not supported."
+                puts stderr "These are the currently supported port groups:"
+                foreach supportedGroup ${supportedGroups} {
+                    puts stderr "    $supportedGroup"
+                }
+                exit 1
+            }
+            set ::argv [lrange $::argv 1 end]
+        }
+        h {
+            printUsage stdout
+            exit 0
+        }
+        default {
+            puts stderr "Unknown option [lindex $::argv 0]"
+            printUsage
+            exit 1
+        }
+    }
+    set ::argv [lrange $::argv 1 end]
+}
+
+if {[llength $::argv] != 2} {
+    puts stderr "Error: missing portname or portversion"
+    printUsage
+    exit 1
+}
+
+set portname [lindex $::argv 0]
+set portversion [lindex $::argv 1]
+if {[string match {*/*} $portname]} {
+    set verlist [split [lindex $::argv 0] /]
+    set github.user [lindex ${verlist} 0]
+    set portname [lindex ${verlist} 1]
+    set github.name $portname
+}
+
+# Port groups, here we go!
+foreach groupCode ${groupCodes} {
+    switch ${groupCode} {
+        active_variants {
+            append pfGroups "PortGroup           active-variants 1.1\n"
+
+            append pfBlocks "# For active_variants:\n"
+            append pfBlocks "#  \$name\n"
+            append pfBlocks "#    is the name of the port you're trying to check (required)\n"
+            append pfBlocks "#  \$required\n"
+            append pfBlocks "#    is a list of variants that must be enabled for the test to succeed\n"
+            append pfBlocks "#    (required; remember this can also be a space-separated string or just\n"
+            append pfBlocks "#    a string for a single value. It's interpreted as list, though.)\n"
+            append pfBlocks "#  \$forbidden\n"
+            append pfBlocks "#    is a list of variants that may not be enabled for the test to succeed\n"
+            append pfBlocks "#    (default is empty list, see description of \$required for values that can be\n"
+            append pfBlocks "#    interpreted as list by Tcl)\n"
+            append pfBlocks "if {!\[catch {set result \[active_variants \$name \$required \$forbidden]}]} {\n"
+            append pfBlocks "    if {\$result} {\n"
+            append pfBlocks "        # code to be executed if \$name is active with at least all variants in\n"
+            append pfBlocks "        # \$required and none from \$forbidden\n"
+            append pfBlocks "    } else {\n"
+            append pfBlocks "        # code to be executed if \$name is active, but either not with all\n"
+            append pfBlocks "        # variants in \$required or any variant in \$forbidden\n"
+            append pfBlocks "    }\n"
+            append pfBlocks "} else {\n"
+            append pfBlocks "    # code to be executed if \$name isn't active\n"
+            append pfBlocks "}\n\n"
+        }
+        apache2 {
+            append pfGroups "PortGroup           apache2 1.0\n"
+        }
+        app {
+            append pfGroups "PortGroup           app 1.0\n"
+        }
+        archcheck {
+            append pfGroups "PortGroup           archcheck 1.0\n"
+            append pfFirstOptions "archcheck.files     replaceme\n"
+        }
+        bitbucket {
+            append pfGroups "PortGroup           bitbucket 1.0\n"
+            append pfFirstOptions "github.setup        ${github.user} ${github.name} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set add_homepage 0
+        }
+        cmake {
+            append pfGroups "PortGroup           cmake 1.0\n"
+        }
+        compiler_blacklist_versions {
+            append pfGroups "PortGroup           compiler_blacklist_versions 1.0\n"
+        }
+        compilers {
+            append pfGroups "PortGroup           compilers 1.0\n"
+        }
+        conflicts_build {
+            append pfGroups "PortGroup           conflicts_build 1.0\n"
+        }
+        crossbinutils {
+            append pfGroups "PortGroup           crossbinutils 1.0\n"
+            append pfFirstOptions "crossbinutils.setup ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_description 0
+            set add_long_description 0
+            set add_homepage 0
+            set add_depends_lib 1
+        }
+        crossgcc {
+            append pfGroups "PortGroup           crossgcc 1.0\n"
+            append pfFirstOptions "crossgcc.setup      ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_description 0
+            set add_long_description 0
+            set add_homepage 0
+            set add_depends_build 1
+            set add_depends_lib 1
+        }
+        cxx11 {
+            append pfGroups "PortGroup           cxx11 1.0\n"
+        }
+        debug {
+            append pfGroups "PortGroup           debug 1.0\n"
+        }
+        elisp {
+            append pfGroups "PortGroup           elisp 1.0\n"
+        }
+        github {
+            append pfGroups "PortGroup           github 1.0\n"
+            append pfFirstOptions "github.setup        ${github.user} ${github.name} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set add_homepage 0
+        }
+        gnu_info {
+            append pfGroups "PortGroup           gnu_info 1.0\n"
+        }
+        gnustep {
+            append pfGroups "PortGroup           gnustep 1.0\n"
+            set append_categories 1
+            set add_depends_build 1
+            set add_depends_lib 1
+        }
+        gobject_introspection {
+            append pfGroups "PortGroup           gobject_introspection 1.0\n"
+            set add_depends_append 1
+            append pfLastOptions  "gobject_introspection replaceme\n"
+        }
+        haskell {
+            append pfGroups "PortGroup           haskell 1.0\n"
+            append pfFirstOptions "haskell.setup       ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_homepage 0
+            set add_depends_lib 1
+        }
+        haskell-platform {
+            append pfGroups "PortGroup           haskell-platform 2.0\n"
+            append pfFirstOptions "haskellplatform.setup ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_homepage 0
+            set add_depends_lib 1
+        }
+        hocbinding {
+            append pfGroups "PortGroup           hocbinding 2.0\n"
+            append pfFirstOptions "hocbinding.setup    ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_description 0
+            set add_long_description 0
+            set add_homepage 0
+            set add_depends_build 1
+            set add_depends_lib 1
+        }
+        hunspelldict {
+            append pfGroups "PortGroup           hunspelldict 1.0\n"
+            append pfFirstOptions "hunspelldict.setup  replaceme ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_description 0
+            set add_long_description 0
+            set add_homepage 0
+        }
+        java {
+            append pfGroups "PortGroup           java 1.0\n"
+        }
+        kde4 {
+            append pfGroups "PortGroup           kde4 1.1\n"
+            set add_depends_build 1
+            set add_depends_lib 1
+        }
+        linear-algebra {
+            append pfGroups "PortGroup           linear-algebra 1.0\n"
+        }
+        mpi {
+            append pfGroups "PortGroup           mpi 1.0\n"
+            append pfFirstOptions "mpi.setup           replaceme\n"
+        }
+        muniversal {
+            append pfGroups "PortGroup           muniversal 1.0\n"
+        }
+        obsolete {
+            append pfGroups "#replaced_by        replaceme\n"
+            append pfGroups "PortGroup           obsolete 1.0\n"
+            set add_description 0
+            set add_long_description 0
+        }
+        ocaml {
+            append pfGroups "PortGroup           ocaml 1.0\n"
+            set add_depends_lib 1
+        }
+        octave {
+            append pfGroups "PortGroup           octave 1.0\n"
+            append pfFirstOptions "octave.setup        ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_homepage 0
+            set add_depends_lib 1
+        }
+        pear {
+            append pfGroups "PortGroup           pear 1.0\n"
+            append pfFirstOptions "pear.setup          ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_homepage 0
+            set add_depends_build 1
+            set add_depends_lib 1
+        }
+        perl5 {
+            append pfGroups "PortGroup           perl5 1.0\n"
+            append pfFirstOptions "perl5.branches      5.16 5.18 5.20 5.22 5.24\n"
+            set append_categories 1
+            set add_name 1
+        }
+        php {
+            append pfGroups "PortGroup           php 1.1\n"
+            set add_name 1
+            set portname "php-${portname}"
+            append pfLastOptions "php.branches        5.3 5.4 5.5 5.6 7.0\n"
+            append pfLastOptions "php.pecl            yes\n"
+            set append_categories 1
+            set configure.args_append 1
+            append pfBlocks "if {\${name} ne \${subport}} {\n"
+            append pfBlocks "    depends_lib-append      replaceme\n"
+            append pfBlocks "    configure.args-append   replaceme\n"
+            append pfBlocks "}\n"
+        }
+        php5pear {
+            append pfGroups "PortGroup           php5pear 1.0\n"
+            append pfFirstOptions "php5pear.setup      ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_homepage 0
+            set add_depends_lib 1
+        }
+        pure {
+            append pfGroups "PortGroup           pure 1.0\n"
+            append pfFirstOptions "pure.setup          ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_homepage 0
+            set add_depends_lib 1
+        }
+        python {
+            append pfGroups "PortGroup           python 1.0\n"
+            set portname "py-${portname}"
+            set add_name 1
+            append pfLastOptions "distname            \${portname}-\${version}\n"
+            set append_categories 1
+            # Why is this here?
+            append pfBlocks "python.versions     25 26 27\n"
+            append pfBlocks "if {\${name} ne \${subport}} {\n"
+            append pfBlocks "    post-destroot {\n"
+            append pfBlocks "        set docdir \${prefix}/share/doc/\${subport}\n"
+            append pfBlocks "        xinstall -m 755 -d \${destroot}\${docdir}\n"
+            append pfBlocks "        xinstall -m 644 -W $\{worksrcpath\} replaceme \\\n"
+            append pfBlocks "           \${destroot}\${docdir}\n"
+            append pfBlocks "    }\n"
+            append pfBlocks "}\n\n"
+        }
+        qmake {
+            append pfGroups "PortGroup           qmake 1.0\n"
+        }
+        qmake5 {
+            append pfGroups "PortGroup           qmake5 1.0\n"
+        }
+        qt4 {
+            append pfGroups "PortGroup           qt4 1.0\n"
+        }
+        qt5 {
+            append pfGroups "PortGroup           qt5 1.0\n"
+        }
+        ruby {
+            append pfGroups "PortGroup           ruby 1.0\n"
+            append pfFirstOptions "ruby.setup          ${portname} ${portversion}\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_homepage 0
+            set add_depends_lib 1
+        }
+        select {
+            append pfGroups "PortGroup           select 1.0\n"
+        }
+        texlive {
+            append pfGroups "PortGroup           texlive 1.0\n"
+        }
+        waf {
+            append pfGroups "PortGroup           waf 1.0\n"
+            set add_depends_build 1
+        }
+        wxWidgets {
+            append pfGroups "PortGroup           wxWidgets 1.0\n"
+        }
+        x11font {
+            append pfGroups "PortGroup           x11font 1.0\n"
+            append pfFirstOptions "x11font.setup       ${portname} ${portversion} replaceme\n"
+            if {$add_name eq -1} {set add_name 0}
+            set add_version 0
+            set append_categories 1
+            set add_homepage 0
+            set add_depends_build 1
+            set add_depends_lib 1
+        }
+        xcode {
+            append pfGroups "PortGroup           xcode 1.0\n"
+            set append_categories 1
+        }
+        xcodeversion {
+            append pfGroups "PortGroup           xcodeversion 1.0\n"
+            append pfLastOptions "minimum_xcodeversions replaceme\n"
+        }
+        xmlcatalog {
+            append pfGroups "PortGroup           xmlcatalog 1.0\n"
+        }
+        default {
+        }
+    }
+}
+
+# Add the usual content
+if {$add_name ne 0} {
+    append pfFirstOptions "name                ${portname}\n"
+}
+if {$add_version} {
+    append pfFirstOptions "version             ${portversion}\n"
+}
+if {$append_categories} {
+    append pfFirstOptions "#categories-append   replaceme\n"
+} else {
+    append pfFirstOptions "categories          replaceme\n"
+}
+append pfFirstOptions "platforms           darwin\n"
+append pfFirstOptions "maintainers         replaceme\n"
+append pfFirstOptions "license             replaceme\n"
+if {$add_description} {
+    append pfFirstOptions "description         replaceme\n"
+}
+if {$add_long_description} {
+    append pfFirstOptions "long_description    replaceme\n"
+}
+if {$add_homepage} {
+    append pfFirstOptions "homepage            replacemme\n"
+}
+if {$add_depends_build} {
+    append pfFirstOptions  "#depends_build-append  replacemme\n"
+}
+if {$add_depends_lib} {
+    append pfFirstOptions  "#depends_lib-append  replacemme\n"
+}
+if {${add_configure.args}} {
+    append pfFirstOptions  "#configure.args-append replacemme\n"
+}
+append pfLastOptions "checksums           rmd160  12345678 \\\n"
+append pfLastOptions "                    sha256  9abcdef0\n"
+
+# Add a template for variants
+append pfBlocks "#variant variantName conflicts port1 port2 requires port3 port4 \\\n"
+append pfBlocks "#        description {variant description} {\n"
+append pfBlocks "#    #'conflicts' and 'requires' are optional arguments.\n"
+append pfBlocks "#    #Change or add anything here that is needed for this variant.\n"
+append pfBlocks "#}\n"
+
+# Print Portfile:
+
+#puts -nonewline stdout $pfHeader
+puts stdout "# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4"
+puts stdout "# \$Id\$"
+puts stdout ""
+puts stdout "\PortSystem          1.0"
+puts stdout ""
+
+if {$pfGroups ne ""} {
+    puts stdout "# See the PortGroups' source for instructions on how to use them."
+    puts -nonewline stdout $pfGroups
+    puts stdout ""
+}
+
+puts -nonewline stdout $pfFirstOptions
+puts -nonewline stdout $pfLastOptions
+
+if {$pfBlocks ne ""} {
+    puts stdout ""
+    puts -nonewline stdout $pfBlocks
+}
+
+if {$pfFooter ne ""} {
+    puts stdout ""
+    puts -nonewline stdout $pfFooter
+}

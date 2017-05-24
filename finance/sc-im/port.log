@@ -1,0 +1,318 @@
+DEBUG: Copying /Users/israel/Library/Preferences/com.apple.dt.Xcode.plist to /opt/local/var/macports/home/Library/Preferences
+DEBUG: Changing to port directory: /opt/mports.local/finance/sc-im
+DEBUG: OS darwin/15.5.0 (Mac OS X 10.11) arch i386
+DEBUG: Sourcing PortGroup github 1.0 from /opt/mports/dports/_resources/port1.0/group/github-1.0.tcl
+DEBUG: universal_variant is false, so not adding the default universal variant
+DEBUG: Running callback portconfigure::add_automatic_compiler_dependencies
+DEBUG: Finished running callback portconfigure::add_automatic_compiler_dependencies
+DEBUG: Running callback portbuild::add_automatic_buildsystem_dependencies
+DEBUG: Finished running callback portbuild::add_automatic_buildsystem_dependencies
+DEBUG: dropping privileges: euid changed to 502, egid changed to 501.
+DEBUG: Starting logging for sc-im
+DEBUG: epoch: in tree: 0 installed: 0
+DEBUG: ncurses 6.0_0 exists in the ports tree
+DEBUG: ncurses 6.0_0 +universal is the latest installed
+DEBUG: ncurses 6.0_0 +universal is active
+DEBUG: Merging existing variants '+universal' into variants
+DEBUG: new fully merged portvariants: universal +
+DEBUG: Changing to port directory: /opt/mports/dports/devel/ncurses
+DEBUG: OS darwin/15.5.0 (Mac OS X 10.11) arch i386
+DEBUG: adding the default universal variant
+DEBUG: Reading variant descriptions from /opt/mports/dports/_resources/port1.0/variant_descriptions.conf
+DEBUG: Executing variant universal provides universal
+DEBUG: Running callback portconfigure::add_automatic_compiler_dependencies
+DEBUG: Finished running callback portconfigure::add_automatic_compiler_dependencies
+DEBUG: Running callback portbuild::add_automatic_buildsystem_dependencies
+DEBUG: Finished running callback portbuild::add_automatic_buildsystem_dependencies
+DEBUG: No need to upgrade! ncurses 6.0_0 >= ncurses 6.0_0
+--->  Computing dependencies for sc-im
+DEBUG: sc-im has no conflicts
+DEBUG: Searching for dependency: ncurses
+DEBUG: Found Dependency: receipt exists for ncurses
+DEBUG: Executing org.macports.main (sc-im)
+DEBUG: dropping privileges: euid changed to 502, egid changed to 501.
+DEBUG: archivefetch phase started at Sun Jul 17 07:11:30 EDT 2016
+DEBUG: Executing org.macports.archivefetch (sc-im)
+DEBUG: Privilege de-escalation not attempted as not running as root.
+DEBUG: Skipping completed org.macports.fetch (sc-im)
+DEBUG: Privilege de-escalation not attempted as not running as root.
+DEBUG: Skipping completed org.macports.checksum (sc-im)
+DEBUG: Privilege de-escalation not attempted as not running as root.
+DEBUG: Skipping completed org.macports.extract (sc-im)
+DEBUG: Privilege de-escalation not attempted as not running as root.
+DEBUG: Skipping completed org.macports.patch (sc-im)
+DEBUG: Privilege de-escalation not attempted as not running as root.
+DEBUG: Skipping completed org.macports.configure (sc-im)
+DEBUG: Privilege de-escalation not attempted as not running as root.
+DEBUG: Skipping completed org.macports.build (sc-im)
+DEBUG: Privilege de-escalation not attempted as not running as root.
+DEBUG: destroot phase started at Sun Jul 17 07:11:30 EDT 2016
+--->  Staging sc-im into destroot
+DEBUG: Can't run destroot under sudo without elevated privileges (due to mtree).
+DEBUG: Run destroot without sudo to avoid root privileges.
+DEBUG: Going to escalate privileges back to root.
+DEBUG: euid changed to: 0. egid changed to: 0.
+DEBUG: system: cd "/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot" && /usr/sbin/mtree -e -U -f /opt/local/share/macports/install/macosx.mtree
+. changed
+	gid expected 0 found 80 modified
+./usr missing (created)
+. missing (directory not created: File exists)
+./Applications missing (created)
+./Developer missing (created)
+./Library missing (created)
+DEBUG: system: cd "/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local" && /usr/sbin/mtree -e -U -f /opt/local/share/macports/install/prefix.mtree
+. changed
+	gid expected 80 found 0 modified
+./bin missing (created)
+./etc missing (created)
+./include missing (created)
+./lib missing (created)
+./lib/pkgconfig missing (created)
+./libexec missing (created)
+./sbin missing (created)
+./share missing (created)
+./share/doc missing (created)
+./share/info missing (created)
+./share/man missing (created)
+./share/man/cat1 missing (created)
+./share/man/cat2 missing (created)
+./share/man/cat3 missing (created)
+./share/man/cat4 missing (created)
+./share/man/cat5 missing (created)
+./share/man/cat6 missing (created)
+./share/man/cat7 missing (created)
+./share/man/cat8 missing (created)
+./share/man/cat9 missing (created)
+./share/man/catl missing (created)
+./share/man/catn missing (created)
+./share/man/man1 missing (created)
+./share/man/man2 missing (created)
+./share/man/man3 missing (created)
+./share/man/man4 missing (created)
+./share/man/man5 missing (created)
+./share/man/man6 missing (created)
+./share/man/man7 missing (created)
+./share/man/man8 missing (created)
+./share/man/man9 missing (created)
+./share/man/manl missing (created)
+./share/man/mann missing (created)
+./share/nls missing (created)
+./share/nls/C missing (created)
+./share/nls/af_ZA.ISO8859-1 missing (created)
+./share/nls/af_ZA.ISO8859-15 missing (created)
+./share/nls/bg_BG.CP1251 missing (created)
+./share/nls/cs_CZ.ISO8859-2 missing (created)
+./share/nls/da_DK.ISO8859-1 missing (created)
+./share/nls/da_DK.ISO8859-15 missing (created)
+./share/nls/de_AT.ISO8859-1 missing (created)
+./share/nls/de_AT.ISO8859-15 missing (created)
+./share/nls/de_CH.ISO8859-1 missing (created)
+./share/nls/de_CH.ISO8859-15 missing (created)
+./share/nls/de_DE.ISO8859-1 missing (created)
+./share/nls/de_DE.ISO8859-15 missing (created)
+./share/nls/el_GR.ISO8859-7 missing (created)
+./share/nls/en_AU.ISO8859-1 missing (created)
+./share/nls/en_AU.ISO8859-15 missing (created)
+./share/nls/en_AU.US-ASCII missing (created)
+./share/nls/en_CA.ISO8859-1 missing (created)
+./share/nls/en_CA.ISO8859-15 missing (created)
+./share/nls/en_CA.US-ASCII missing (created)
+./share/nls/en_GB.ISO8859-1 missing (created)
+./share/nls/en_GB.ISO8859-15 missing (created)
+./share/nls/en_GB.US-ASCII missing (created)
+./share/nls/en_NZ.ISO8859-1 missing (created)
+./share/nls/en_NZ.ISO8859-15 missing (created)
+./share/nls/en_NZ.US-ASCII missing (created)
+./share/nls/en_US.ISO8859-1 missing (created)
+./share/nls/en_US.ISO8859-15 missing (created)
+./share/nls/es_ES.ISO8859-1 missing (created)
+./share/nls/es_ES.ISO8859-15 missing (created)
+./share/nls/et_EE.ISO8859-15 missing (created)
+./share/nls/fi_FI.ISO8859-1 missing (created)
+./share/nls/fi_FI.ISO8859-15 missing (created)
+./share/nls/fr_BE.ISO8859-1 missing (created)
+./share/nls/fr_BE.ISO8859-15 missing (created)
+./share/nls/fr_CA.ISO8859-1 missing (created)
+./share/nls/fr_CA.ISO8859-15 missing (created)
+./share/nls/fr_CH.ISO8859-1 missing (created)
+./share/nls/fr_CH.ISO8859-15 missing (created)
+./share/nls/fr_FR.ISO8859-1 missing (created)
+./share/nls/fr_FR.ISO8859-15 missing (created)
+./share/nls/hi_IN.ISCII-DEV missing (created)
+./share/nls/hr_HR.ISO8859-2 missing (created)
+./share/nls/hu_HU.ISO8859-2 missing (created)
+./share/nls/is_IS.ISO8859-1 missing (created)
+./share/nls/is_IS.ISO8859-15 missing (created)
+./share/nls/it_CH.ISO8859-1 missing (created)
+./share/nls/it_CH.ISO8859-15 missing (created)
+./share/nls/it_IT.ISO8859-1 missing (created)
+./share/nls/it_IT.ISO8859-15 missing (created)
+./share/nls/ja_JP.SJIS missing (created)
+./share/nls/ja_JP.eucJP missing (created)
+./share/nls/ko_KR.eucKR missing (created)
+./share/nls/la_LN.ISO8859-1 missing (created)
+./share/nls/la_LN.ISO8859-15 missing (created)
+./share/nls/la_LN.ISO8859-2 missing (created)
+./share/nls/la_LN.ISO8859-4 missing (created)
+./share/nls/la_LN.US-ASCII missing (created)
+./share/nls/lt_LT.ISO8859-4 missing (created)
+./share/nls/nl_BE.ISO8859-1 missing (created)
+./share/nls/nl_BE.ISO8859-15 missing (created)
+./share/nls/nl_NL.ISO8859-1 missing (created)
+./share/nls/nl_NL.ISO8859-15 missing (created)
+./share/nls/no_NO.ISO8859-1 missing (created)
+./share/nls/no_NO.ISO8859-15 missing (created)
+./share/nls/pl_PL.ISO8859-2 missing (created)
+./share/nls/pt_BR.ISO8859-1 missing (created)
+./share/nls/pt_PT.ISO8859-1 missing (created)
+./share/nls/pt_PT.ISO8859-15 missing (created)
+./share/nls/ro_RO.ISO8859-2 missing (created)
+./share/nls/ru_RU.CP866 missing (created)
+./share/nls/ru_RU.ISO8859-5 missing (created)
+./share/nls/ru_RU.KOI8-R missing (created)
+./share/nls/sk_SK.ISO8859-2 missing (created)
+./share/nls/sl_SI.ISO8859-2 missing (created)
+./share/nls/sv_SE.ISO8859-1 missing (created)
+./share/nls/sv_SE.ISO8859-15 missing (created)
+./share/nls/tr_TR.ISO8859-9 missing (created)
+./share/nls/uk_UA.ISO8859-5 missing (created)
+./share/nls/uk_UA.KOI8-U missing (created)
+./share/nls/zh_CN.eucCN missing (created)
+./share/nls/zh_TW.Big5 missing (created)
+./share/skel missing (created)
+./var missing (created)
+./var/cache missing (created)
+./var/db missing (created)
+./var/log missing (created)
+./var/run missing (created)
+./var/spool missing (created)
+./www missing (created)
+DEBUG: Executing org.macports.destroot (sc-im)
+DEBUG: Environment: 
+CC_PRINT_OPTIONS='YES'
+CC_PRINT_OPTIONS_FILE='/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/.CC_PRINT_OPTIONS'
+CPATH='/opt/local/include'
+LIBRARY_PATH='/opt/local/lib'
+MACOSX_DEPLOYMENT_TARGET='10.11'
+Executing:  cd "/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/sc-im-0.3.0/src" && /usr/bin/make install prefix=/opt/local DESTDIR=/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot 
+DEBUG: system:  cd "/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/sc-im-0.3.0/src" && /usr/bin/make install prefix=/opt/local DESTDIR=/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot 
+install -d /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/bin
+install scim /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/bin/scim
+install -d /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/share/scim
+install doc /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/share/scim/scim_help
+install -d /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/share/man/man1
+install -m 644 sc-im.1 /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/share/man/man1/scim.1
+DEBUG: Executing portdestroot::destroot_finish
+DEBUG: Fixing glibtool .la files in destroot for sc-im
+--->  Compressing man pages for sc-im
+DEBUG: Scanning man1
+DEBUG: system: cd /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/share/man &&  /usr/bin/gzip -9vnf man1/scim.1
+man1/scim.1:	   57.7% -- replaced with man1/scim.1.gz
+man1/scim.1.gz: changing permissions from 00644 to 00444
+DEBUG: checking for mtree violations
+DEBUG: dropping privileges: euid changed to 502, egid changed to 501.
+DEBUG: install phase started at Sun Jul 17 07:11:30 EDT 2016
+--->  Installing sc-im @0.3.0_0
+DEBUG: elevating privileges for install: euid changed to 0, egid changed to 0.
+DEBUG: Executing org.macports.install (sc-im)
+DEBUG: Using /usr/bin/tar
+DEBUG: Using /usr/bin/bzip2
+DEBUG: checksum file: /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/bin/scim
+DEBUG: checksum file: /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/share/man/man1/scim.1.gz
+DEBUG: checksum file: /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/opt/local/share/scim/scim_help
+DEBUG: Creating sc-im-0.3.0_0.darwin_15.x86_64.tbz2
+DEBUG: Environment: 
+CC_PRINT_OPTIONS='YES'
+CC_PRINT_OPTIONS_FILE='/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/.CC_PRINT_OPTIONS'
+CPATH='/opt/local/include'
+LIBRARY_PATH='/opt/local/lib'
+MACOSX_DEPLOYMENT_TARGET='10.11'
+Executing:  cd "/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot" && /usr/bin/tar -cvf - . | /usr/bin/bzip2 -c9 > /opt/local/var/macports/software/sc-im/sc-im-0.3.0_0.darwin_15.x86_64.tbz2 
+DEBUG: system:  cd "/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot" && /usr/bin/tar -cvf - . | /usr/bin/bzip2 -c9 > /opt/local/var/macports/software/sc-im/sc-im-0.3.0_0.darwin_15.x86_64.tbz2 
+a .
+a ./+COMMENT
+a ./+CONTENTS
+a ./+DESC
+a ./+PORTFILE
+a ./+STATE
+a ./opt
+a ./opt/local
+a ./opt/local/bin
+a ./opt/local/share
+a ./opt/local/share/man
+a ./opt/local/share/scim
+a ./opt/local/share/scim/scim_help
+a ./opt/local/share/man/man1
+a ./opt/local/share/man/man1/scim.1.gz
+a ./opt/local/bin/scim
+DEBUG: Archive sc-im-0.3.0_0.darwin_15.x86_64.tbz2 packaged
+DEBUG: removing file: /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/+COMMENT
+DEBUG: removing file: /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/+CONTENTS
+DEBUG: removing file: /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/+DESC
+DEBUG: removing file: /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/+PORTFILE
+DEBUG: removing file: /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im/work/destroot/+STATE
+DEBUG: activate phase started at Sun Jul 17 07:11:31 EDT 2016
+DEBUG: Executing org.macports.activate (sc-im)
+--->  Activating sc-im @0.3.0_0
+DEBUG: Using /usr/bin/tar
+DEBUG: Using /usr/bin/bzip2
+DEBUG: system: /usr/bin/bzip2 -d -c /opt/local/var/macports/software/sc-im/sc-im-0.3.0_0.darwin_15.x86_64.tbz2 | ( /usr/bin/tar -xvpf - )
+x ./
+x ./+COMMENT
+x ./+CONTENTS
+x ./+DESC
+x ./+PORTFILE
+x ./+STATE
+x ./opt/
+x ./opt/local/
+x ./opt/local/bin/
+x ./opt/local/share/
+x ./opt/local/share/man/
+x ./opt/local/share/scim/
+x ./opt/local/share/scim/scim_help
+x ./opt/local/share/man/man1/
+x ./opt/local/share/man/man1/scim.1.gz
+x ./opt/local/bin/scim
+DEBUG: activating directory: /
+DEBUG: activating directory: /opt
+DEBUG: activating directory: /opt/local
+DEBUG: activating directory: /opt/local/bin
+DEBUG: activating file: /opt/local/bin/scim
+DEBUG: activating directory: /opt/local/share
+DEBUG: activating directory: /opt/local/share/man
+DEBUG: activating directory: /opt/local/share/man/man1
+DEBUG: activating file: /opt/local/share/man/man1/scim.1.gz
+DEBUG: activating directory: /opt/local/share/scim
+DEBUG: activating file: /opt/local/share/scim/scim_help
+DEBUG: Executing portactivate::activate_finish
+DEBUG: Executing org.macports.main (sc-im)
+DEBUG: clean phase started at Sun Jul 17 07:11:31 EDT 2016
+--->  Cleaning sc-im
+DEBUG: Executing org.macports.clean (sc-im)
+--->  Removing work directory for sc-im
+DEBUG: Removing directory: /opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im
+DEBUG: No work directory found to remove at /Users/israel/.macports/opt/local/var/macports/build/_opt_mports.local_finance_sc-im/sc-im
+DEBUG: Removing symlink: /opt/mports.local/finance/sc-im/work
+DEBUG: Removing directory: /opt/local/var/macports/logs/_opt_mports.local_finance_sc-im/sc-im
+--->  Updating database of binaries
+DEBUG: Updating binary flag for file 1 of 3: /opt/local/bin/scim
+DEBUG: Updating binary flag for file 2 of 3: /opt/local/share/man/man1/scim.1.gz
+DEBUG: Updating binary flag for file 3 of 3: /opt/local/share/scim/scim_help
+--->  Scanning binaries for linking errors
+DEBUG: skipping ppc in /Applications/MacPorts/Transmission.app/Contents/Frameworks/Sparkle.framework/Resources/relaunch since this system can't run it anyway
+DEBUG: skipping ppc in /Applications/MacPorts/Transmission.app/Contents/Frameworks/Sparkle.framework/Sparkle since this system can't run it anyway
+DEBUG: skipping ppc in /Applications/MacPorts/Transmission.app/Contents/Frameworks/Sparkle.framework/Versions/A/Resources/relaunch since this system can't run it anyway
+DEBUG: skipping ppc in /Applications/MacPorts/Transmission.app/Contents/Frameworks/Sparkle.framework/Versions/A/Sparkle since this system can't run it anyway
+DEBUG: skipping ppc in /Applications/MacPorts/Transmission.app/Contents/Frameworks/Sparkle.framework/Versions/Current/Resources/relaunch since this system can't run it anyway
+DEBUG: skipping ppc in /Applications/MacPorts/Transmission.app/Contents/Frameworks/Sparkle.framework/Versions/Current/Sparkle since this system can't run it anyway
+DEBUG: Ignoring loadcommand containing @executable_path in /Applications/MacPorts/Transmission.app/Contents/MacOS/Transmission
+DEBUG: skipping ppc in /opt/local/share/cmake-3.6/Modules/CPack.OSXScriptLauncher.in since this system can't run it anyway
+DEBUG: Ignoring loadcommand containing @executable_path in /opt/local/libexec/ld64/ld-latest
+DEBUG: Ignoring loadcommand containing @rpath in /Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim
+DEBUG: Ignoring loadcommand containing @executable_path in /Applications/MacPorts/MacVim.app/Contents/MacOS/MacVim
+DEBUG: Ignoring loadcommand containing @rpath in /Applications/MacPorts/iTerm2-tip.app/Contents/MacOS/iTerm2
+DEBUG: Ignoring loadcommand containing @rpath in /Applications/MacPorts/iTerm2-tip.app/Contents/MacOS/iTerm2
+DEBUG: Ignoring loadcommand containing @executable_path in /Applications/MacPorts/iTerm2-tip.app/Contents/MacOS/iTerm2
+DEBUG: Ignoring loadcommand containing @executable_path in /Applications/MacPorts/iTerm2-tip.app/Contents/MacOS/iTerm2
+--->  No broken files found.
+DEBUG: Checking time since last reclaim run

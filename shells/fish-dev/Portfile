@@ -4,9 +4,9 @@
 PortSystem              1.0
 PortGroup               github 1.0
 
-github.setup            fish-shell fish-shell 4b0f1cf85ba987b09351b4bfe3df3ed9bd59e4de
+github.setup            fish-shell fish-shell a3a069234b92e86e204d58fbc7d3ddaebafe2cc7
 name                    fish-dev
-version                 20160619052115
+version                 20170505005449
 license                 GPL-2
 categories              shells
 platforms               darwin
@@ -36,11 +36,13 @@ patchfiles              patch-share_config_fish.diff
 post-patch {
     reinplace "s|@@PREFIX@@|${prefix}/bin|g"     "${worksrcpath}/share/config.fish"
     reinplace "s|DEF_VER=2.0.GIT|DEF_VER=${version}|"     ${worksrcpath}/build_tools/git_version_gen.sh
+    #reinplace "s|AC_CONFIG_MACRO_DIRS|AC_CONFIG_MACRO_DIR|"     ${worksrcpath}/configure.ac
 }
 
-use_autoconf yes
+#use_autoconf yes
+use_autoreconf yes
 #pre-configure {
-#    exec {autoconf}
+#    exec {autoreconf} ${worksrcpath}
 #}
 
 notes "

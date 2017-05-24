@@ -1,0 +1,27 @@
+--- Makefile
++++ Makefile
+@@ -46,8 +46,8 @@ FREEBSD :=
+ NETBSD :=
+
+ # For Building SC-IM in MACOSX, set MACOSX variable below
+-#MACOSX := -DMACOSX
+-MACOSX :=
++#MACOSX :=
++MACOSX = -DMACOSX
+
+ # Set SIMPLE for lex.c if you don't want arrow keys or lex.c blows up
+ #SIMPLE := -DSIMPLE
+@@ -134,11 +134,12 @@ UNDO := -DUNDO
+ MAXROWS := 65536
+
+ #CFLAGS := -O2 -Wall -pipe -g
+-CFLAGS := $(LINUX) $(FREEBSD) $(NETBSD) $(MACOSX) -O2 -Wall -pipe -g -I/usr/include/libxml2
++CFLAGS := $(LINUX) $(FREEBSD) $(NETBSD) $(MACOSX) -O2 -Wall -pipe -g -I/usr/include/libxml2 -I$(prefix)/include
+ CFLAGS := $(CFLAGS) $(USECOLORS) $(USELOCALE) $(UNDO) $(SIGVOID) $(DFLT_PAGER)
+ CFLAGS := $(CFLAGS) $(IEEE_MATH) $(RINT) $(REGEX) $(LIBRARY) -DMAXROWS=$(MAXROWS)
+ CFLAGS := $(CFLAGS) $(HELP_PATH) $(SNAME) $(NO_NOTIMEOUT) $(SIMPLE) $(XLS) $(XLSX) $(HISTORY_FILE)
+
++LDFLAGS := -L$(prefix)/lib
+ # NOTE: ncursesw library should be used.
+ # Not the ncurses library.
+ LDLIBS := -lm -lncursesw

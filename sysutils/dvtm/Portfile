@@ -3,9 +3,9 @@
 
 PortSystem              1.0
 
-name                    dvtm
-version                 0.10
-revision                1
+name                    dvtm-dev
+version                 0.15
+revision                0
 categories              sysutils
 platforms               darwin
 license                 MIT
@@ -21,16 +21,17 @@ long_description        dvtm brings the concept of tiling window management, \
 
 homepage                http://brain-dump.org/projects/dvtm/
 master_sites            ${homepage}
+distname                dvtm-0.15
 
-checksums               rmd160  36f14f5e7da72aeee7ca412d905d7d50047208d4 \
-                        sha256  7750872578e259d86c79277c19f3715c1fd3ff8d4f6c300ff8e12b270db86651
+checksums               rmd160  f4222388098891433711020b2739e5756b7c2122 \
+                        sha256  8f2015c05e2ad82f12ae4cf12b363d34f527a4bbc8c369667f239e4542e1e510
 
 depends_lib             port:ncurses
 
 patchfiles              patch-src-config.mk.diff
 
 platform darwin {
-    patchfiles-append   patch-src-Makefile.diff
+#    patchfiles-append   patch-src-Makefile.diff
 }
 
 use_configure           no

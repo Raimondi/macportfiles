@@ -6,10 +6,13 @@ stockfish-local
 fortune-mod
 cowsay
 lastpass-cli
-vim-dev
-fish-dev
+vim-edge
+fish-edge
 micoro
 coco-cpp
 newsbeuter
 libtask
 hugo
+sc-im
+mc
+fsql

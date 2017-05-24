@@ -8,7 +8,7 @@ github.setup            akrennmair newsbeuter 2.9 r
 license                 MIT
 categories              net www
 platforms               darwin
-maintainers             gmail.com:israelchauca
+maintainers             openmaintainer
 
 description             The mutt of rss feed readers
 long_description        Newsbeuter is an open-source RSS/Atom feed reader for \
@@ -25,6 +25,7 @@ depends_lib             port:libxml2 \
                         port:sqlite3 \
                         port:gettext \
                         port:curl \
+                        port:json-c \
                         port:ncurses
 
 destroot.destdir        prefix=${destroot}${prefix}

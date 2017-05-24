@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        kshvmdn fsql 0.1.0 v
+categories          sysutils
+platforms           darwin
+maintainers         gmail.com:israelchauca openmaintainer
+license             MIT
+description         Search through your filesystem with SQL-esque queries
+long_description    ${description}
+distname            darwin_amd64
+github.tarball_from releases
+checksums           rmd160  267bd6a61b7f7bf05fd6813ca57f52ec96377571 \
+                    sha256  b7e6a38720d4a009260c084823ab97b6d914f9319baf3d4a120638e4e5a3e4c7
+extract.mkdir       yes
+use_configure       no
+build {}
+
+destroot {
+    xinstall -d ${destroot}${prefix}/bin
+    xinstall ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}

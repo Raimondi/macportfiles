@@ -1,20 +1,22 @@
---- config.mk	2013-12-28 04:43:43.000000000 -0800
-+++ config.mk	2014-02-19 09:51:56.000000000 -0800
-@@ -6,7 +6,7 @@
- PREFIX = /usr/local
- MANPREFIX = ${PREFIX}/share/man
+--- config.mk	2016-01-09 06:40:56.000000000 -0500
++++ config.mk	2016-03-18 12:14:00.000000000 -0400
+@@ -1,4 +1,4 @@
+-# dvtm version
++# gvtm version
+ VERSION = 0.15
  
--INCS = -I. -I/usr/include -I/usr/local/include
+ # Customize below to fit your system
+@@ -9,11 +9,11 @@
+ # leave empty to install into your home folder
+ TERMINFO := ${DESTDIR}${PREFIX}/share/terminfo
+ 
+-INCS = -I.
 +INCS = -I. -I${PREFIX}/include
  LIBS = -lc -lutil -lncursesw
- # NetBSD
- #LIBS = -lc -lutil -lcurses
-@@ -16,7 +16,7 @@
- #INCS += -I/usr/include/ncurses
- 
- CFLAGS += -std=c99 -Os ${INCS} -DVERSION=\"${VERSION}\" -DNDEBUG
--LDFLAGS += -L/usr/lib -L/usr/local/lib ${LIBS}
+ CPPFLAGS = -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700 -D_XOPEN_SOURCE_EXTENDED
+ CFLAGS += -std=c99 ${INCS} -DVERSION=\"${VERSION}\" -DNDEBUG ${CPPFLAGS}
+-LDFLAGS += ${LIBS}
 +LDFLAGS += -L${PREFIX}/lib ${LIBS}
  
- DEBUG_CFLAGS = ${CFLAGS} -UNDEBUG -O0 -g -ggdb -Wall -Wextra -Wno-missing-field-initializers -Wno-unused-parameter
+ DEBUG_CFLAGS = ${CFLAGS} -UNDEBUG -O0 -g -ggdb -Wall -Wextra -Wno-unused-parameter
  

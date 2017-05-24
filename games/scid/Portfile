@@ -16,7 +16,7 @@ homepage            http://scid.sourceforge.net/
 fetch.type          git
 git.url             git://git.code.sf.net/p/scid/code
 git.branch          d2be6703094342bc47d7df1e60d374aaa7bb29f6
-depends_lib         port:tk port:zlib
+depends_lib         port:tk port:zlib port:tDOM
 build.cmd           make install
 
 destroot {

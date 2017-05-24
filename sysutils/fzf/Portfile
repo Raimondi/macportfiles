@@ -1,0 +1,42 @@
+# $Id: Portfile 134391 2015-03-24 13:35:11Z kimuraw@macports.org $
+
+PortSystem      1.0
+PortGroup       github 1.0
+
+github.setup    junegunn fzf 0.9.13
+revision        0
+categories      sysutils
+homepage        http://peco.github.io
+description     Simplistic interactive filtering tool
+long_description \
+        peco can be a great tool to filter stuff like logs, process stats, find \
+        files, because unlike grep, you can type as you think and look through  \
+        the current results.
+license         MIT
+
+maintainers     kimuraw openmaintainer
+platforms       darwin
+
+depends_build   port:go
+use_configure   no
+dist_subdir     go
+
+# peco
+checksums       ${name}-${version}.tar.gz \
+                    rmd160 30417110dd1ee10b3c04e1f122c4c6d78e556441 \
+                    sha256 0a9972482f57dddf0d7c72e21d13d664ad9b8ee0535bdaab60bb0db3f0ca14c3
+checksum {}
+set gopath      ${workpath}/GOPATH
+post-extract {
+    file mkdir ${gopath}/src/github.com/${github.author}
+    ln -s ${worksrcpath} ${gopath}/src/github.com/${github.author}/${name}
+}
+
+build.cmd       go
+build.target    build
+build.args      cmd/${github.author}/${name}/src/${name}/main.go
+build.env       GOPATH="${gopath}"
+
+destroot {
+    xinstall ${worksrcpath}/${github.author} ${destroot}${prefix}/bin
+}

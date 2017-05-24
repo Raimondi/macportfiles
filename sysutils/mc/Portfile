@@ -1,0 +1,61 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem 1.0
+
+PortGroup           github 1.0
+github.setup        MidnightCommander mc 4.8.17
+revision            0
+categories          sysutils
+maintainers         mk openmaintainer
+license             GPL-3+
+
+description         GNU Midnight Commander
+long_description    \
+                    GNU Midnight Commander is a user-friendly yet powerful file \
+                    manager and visual shell, useful to novice and guru alike. \
+                    It provides a clear, user-friendly, and somewhat protected \
+                    interface to a Unix system while making many frequent file \
+                    operations more efficient and preserving the full power of \
+                    the command prompt. After some practice, you will wonder how \
+                    you could ever live without it.
+homepage            http://www.midnight-commander.org/
+platforms           darwin
+master_sites        ${homepage}downloads
+
+use_xz              yes
+
+checksums           rmd160  8b02c4bec28d39db67b4f2e873acaf4dca9fc7ad \
+                    sha256  0447bdddc0baa81866e66f50f9a545d29d6eebb68b0ab46c98d8fddd2bf4e44d
+
+depends_build       port:pkgconfig
+depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2
+
+configure.args      --without-x
+
+post-destroot {
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    xinstall -m 644 -W ${worksrcpath} \
+        AUTHORS \
+        COPYING \
+        NEWS \
+        README \
+        ${docdir}
+}
+
+variant slang2 conflicts ncurses description {use slang2 screen library} {
+    depends_lib-append      port:slang2
+    configure.args-append   --with-screen=slang \
+                            --with-slang-includes=${prefix} \
+                            --with-slang-libs=${prefix}
+}
+
+variant ncurses conflicts slang2 description {use ncurses screen library} {
+    depends_lib-append      port:ncurses
+    configure.args-append   --with-screen=ncurses
+}
+
+if { ![variant_isset ncurses] } {
+    default_variants        +slang2
+}

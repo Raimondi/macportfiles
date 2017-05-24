@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem              1.0
+
+name                    port_name
+version                 version_number
+revision                0
+categories              cat
+platforms               darwin
+maintainers             gmail.com:israelchauca
+license                 specify
+
+description             Short description.
+long_description        Long description
+
+homepage                http://www.project.dom/
+
+use_bzip2               yes
+master_sites            uri
+checksums               rmd160  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
+                        sha256  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+notes "
+To set MacPorts' ${name} as default login shell, run:
+
+    sudo chpass -s ${prefix}/bin/${name} \${USER}
+
+To be able to switch default shells to or from ${name} without superuser\
+privileges, add it to /etc/shells:
+
+    sudo sh -c 'echo ${prefix}/bin/${name} >> /etc/shells'
+"
+
+livecheck.type          regex
+livecheck.url           url
+livecheck.regex         ${name}[strsed ${bash_version} {g/\.//}]-(\\d\\d\\d)

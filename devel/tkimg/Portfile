@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem          1.0
+
+name                tkimg
+set mayor_version   1.4
+set minor_version   6
+version             ${mayor_version}.${minor_version}
+categories          devel tk tcl
+platforms           darwin
+maintainers         nomaintainer
+supported_archs     noarch
+license             BSD GPL-2
+
+description         The "Img" package adds a lot of image formats to Tcl/Tk.
+
+long_description    This package enhances Tk, adding support for many other \
+                    Image formats: BMP, XBM, XPM, GIF (with transparency, \
+                    but without LZW), PNG, JPEG, TIFF and postscript.
+
+use_zip             yes
+homepage            http://tkimg.sourceforge.net/
+master_sites        sourceforge:project/${name}/${name}/${mayor_version}/${name}%20${version}
+distname            Img-Source-${version}
+worksrcdir          ${name}
+
+checksums           rmd160  98e98dc9a2d6a4ceae25a7fb2dea7fc3266231c7 \
+                    sha256  1f8c40f63dd2de175c23356e5dcf108c2bba63007c2b332689e7a696aa7656ae
+
+depends_lib         port:tk
+
+pre-configure {
+    exec chmod "+x" "${worksrcpath}/configure"
+}
+
+post-configure {
+    reinplace "s,^# Be more Bourne compatible,cd \"${worksrcpath}/compat/libtiff/\"," "${worksrcpath}/compat/libtiff/configure"
+    exec sh "${worksrcpath}/compat/libtiff/configure"
+}
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/tkdiff ${destroot}${prefix}/bin
+    xinstall -m 755 -d ${destroot}${prefix}/share/doc/${name}/
+    xinstall -m 644 -W ${worksrcpath} CHANGELOG.txt LICENSE.txt README.txt \
+        ${destroot}${prefix}/share/doc/${name}/
+}
+
+# http://downloads.sourceforge.net/project/tkimg/tkimg/1.4/tkimg%201.4.6/Img-Source-1.4.6.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Ftkimg%2Ffiles%2Ftkimg%2F1.4%2Ftkimg%25201.4.6%2F&ts=1480712889&use_mirror=superb-sea2
+# https://superb-sea2.dl.sourceforge.net/project/tkimg/tkimg/1.4/tkimg%201.4.6/Img-Source-1.4.6.zip
