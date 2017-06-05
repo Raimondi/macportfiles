@@ -1,17 +1,17 @@
-#!/usr/bin/env fish
+#!/usr/bin/env bash
 sudo echo "Updating versions on local dev ports..."
 update_port_versions.sh
-set -x LANG C
-and sudo port selfupdate
-and port outdated > ~/playground/port_outdated.txt
-and cat ~/playground/port_outdated.txt
-and sleep 1
+export LANG=C
+sudo port selfupdate \
+&& port outdated > ~/playground/port_outdated.txt \
+&& cat ~/playground/port_outdated.txt \
+&& sleep 1
 sudo port clean --dist vim-edge
 sudo port deactivate iTerm2-edge
 sudo port upgrade outdated
 printf '\a'
-sudo port activate iTerm2-edge
-or sudo port install iTerm2-edge
+sudo port activate iTerm2-edge \
+|| sudo port install iTerm2-edge
 sudo port upgrade outdated
 port installed > ~/Documents/Source/playground/port_installed.txt
 port installed requested > ~/Documents/Source/playground/port_installed_requested.txt

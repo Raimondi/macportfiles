@@ -3,11 +3,11 @@
 
 PortSystem  1.0
 PortGroup   github 1.0
-PortGroup   xcode 1.0
+#PortGroup   xcode 1.0
 
-github.setup gnachman iTerm2 f0afc876561b72c0f462c131de66b1a0062dfb17
+github.setup gnachman iTerm2 3816dfe4becd6c46769b7e012e5d7c3f6de7e925
 name        iTerm2-edge
-version     20170324042752
+version     20170603190046
 categories  aqua shells
 maintainers gmail.com:israelchauca
 license         GPL-2+
@@ -20,11 +20,15 @@ long_description    \
 homepage        http://iterm2.com/
 
 checksum {}
+use_configure no
 
-xcode.project   iTerm2.xcodeproj
-xcode.target    iTerm2
+#xcode.project   iTerm2.xcodeproj
+#xcode.target    iTerm2
+#xcode.configuration Development
+#xcode.build.settings CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
 
-build.pre_args  -parallelizeTargets
+#build.pre_args  -parallelizeTargets
+build.target Nightly
 
 post-patch {
     #reinplace "s|^version *= *.*$|version = \"${version}\"|" ${worksrcpath}/updateVersion.py

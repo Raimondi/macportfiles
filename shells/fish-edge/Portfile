@@ -4,9 +4,9 @@
 PortSystem              1.0
 PortGroup               github 1.0
 
-github.setup            fish-shell fish-shell a3a069234b92e86e204d58fbc7d3ddaebafe2cc7
-name                    fish-dev
-version                 20170505005449
+github.setup            fish-shell fish-shell 2bb415c47f8b6b7568472139272b990e4f17f15b
+name                    fish-edge
+version                 20170603190048
 license                 GPL-2
 categories              shells
 platforms               darwin

@@ -24,7 +24,7 @@ function logerr() {
 }
 function port_update_init() {
   echo "Entering $(dirname "$0")"
-  cd $(dirname "$0")
+  cd $(dirname "$0") || return 1
   cp -f Portfile port_update_Portfile.bk
 }
 function port_update_recover() {
@@ -36,30 +36,35 @@ function reinplace() {
   file="$2"
   sed -i -e "$sed_cmd" "$file"
 }
-function port_update_github_group_info() {
+function fetch_gh_commit_info() {
+  curl "https://api.github.com/repos/$1/$2/commits/$3" 2>/dev/null >github_commit
+}
+function get_gh_commit_hash() {
+    sed -nE -e '/^  "sha/{s/^  "sha": +"([^ ,]+)",*/\1/;p;q;}' github_commit
+}
+function get_port_gh_info() {
+  sed -nE -e '/^github\.setup/{s/^[\t ]*github\.setup[\t ]+//;s/ +/\
+/g;p;q;}' Portfile
+}
+function port_update_gh_group_info() {
   portfile="Portfile"
-  grep -q '^github\.setup' "$portfile" \
-    || { echo "Could not find 'github.setup' in '$portfile'"; return 3; }
-  api_url="https://api.github.com/repos/$(sed -E -n -e '/^github\.setup/{s/^github\.setup[ \t]+([^\t ]+)[ \t]+([^ \t]+).*/\1\/\2/;p;q;}' "$portfile")/commits/master"
-  values=($(curl "$api_url" 2>/dev/null| sed -n -E -e '/^\{$/d' -e '/^ +\},$/q;' \
-    -e 's/[-:ZT]*//g;' \
-    -e '/sha|date/{s/^ *"(sha|date)" +"([^ ,]+)",*/\2/;p;}' 2>/dev/null))
-  newhash="${values[0]}"
-  newdate="${values[1]}"
-  echo "$newhash" | grep -q -E '^[0-9a-hA-H]+$' \
-    || { echo "There was a problem with the hash: $newhash"; return 3; }
-  [ -f "$portfile" ] \
-    || { echo "'$portfile' is not a file"; return 4; }
-  sed -E -i -e "/^github\\.setup/{s/(github\\.setup[\\t ]+[^ \\t]+[\\t ]+[^\\t ]+[\\t ]+)[0-9a-hA-H]+\$/\\1$newhash/;}" "$portfile"
+  [ -f "$portfile" ] || { echo "'$portfile' is not a file"; return 4; }
+  gh_info=($(get_port_gh_info)) \
+    || { echo "Could not find 'github.setup' in '$portfile'"; return 2; }
+  gh_user=${gh_info[0]}
+  gh_repo=${gh_info[1]}
+  fetch_gh_commit_info "$gh_user" "$gh_repo" master || return 1
+  cur_hash=${gh_info[2]}
+  new_hash=$(get_gh_commit_hash) || { echo "There was a problem with the hash: $new_hash"; return 3; }
+  [[ "$cur_hash" = "new_hash" ]] && return 5
+  newdate=$(date -u +"%Y%m%d%H%M%S")
+  sed -E -i -e "/^github\\.setup/{s/(github\\.setup[\\t ]+[^ \\t]+[\\t ]+[^\\t ]+[\\t ]+)[0-9a-hA-H]+\$/\\1$new_hash/;}" "$portfile"
   sed -i -e "/^version/s/[0-9]*\$/$newdate/" $portfile
 }
 function port_update_get_HEAD_hash() {
   url="$1"
   reference="${2-HEAD}"
   git ls-remote --exit-code "$url" "$reference"
-}
-function port_update_get_github_info() {
-  curl https://api.github.com/repos/fish-shell/fish-shell/commits/master | sed -n -E -e '/^\{$/d' -e '/^ +\},$/q;' -e 's/[-:ZT]*//g;' -e '/sha|date/{s/^ *"(sha|date)" +"([^ ,]+)",*/\2/;p;}' 2>/dev/null
 }
 function port_update_get_category() {
   [ "x$1" != x ] || return 3

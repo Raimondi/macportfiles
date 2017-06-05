@@ -4,8 +4,8 @@ PortSystem          1.0
 
 name                vim-edge
 set vim_version     8.0
-set vim_patchlevel  600
-set gitcommit       2a0b06def49198aef45ef173f524a638a700f9c9
+set vim_patchlevel  606
+set gitcommit       6e62da3e14d32f76f60d5cc8b267059923842f17
 version             ${vim_version}.${vim_patchlevel}
 revision            0
 categories          editors edge
