@@ -3,9 +3,9 @@
 PortSystem          1.0
 
 name                vim-edge
-set vim_version     8.0
-set vim_patchlevel  606
-set gitcommit       6e62da3e14d32f76f60d5cc8b267059923842f17
+set vim_version     8.1
+set vim_patchlevel  990
+set gitcommit       e21c1580b7acb598a6e3c38565434fe5d0e2ad7a
 version             ${vim_version}.${vim_patchlevel}
 revision            0
 categories          editors edge
@@ -70,7 +70,8 @@ configure.args      --disable-gui \
                     --with-tlib=ncurses \
                     --enable-multibyte \
                     --with-developer-dir=${developer_dir} \
-                    --enable-fail-if-missing
+                    --enable-fail-if-missing \
+                    --enable-terminal
 
 post-destroot {
     ln -s ${prefix}/bin/vim ${destroot}${prefix}/bin/vi

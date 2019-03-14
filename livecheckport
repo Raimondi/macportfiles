@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cmd=port
-input=${HOME}/ports/myports
+input=/opt/mports.local/myports
 
 echo "Livechecking on the ports listed in \"${input}\"."
 echo

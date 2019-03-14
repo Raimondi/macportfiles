@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        sharkdp fd 5.0.0 v
+categories          sysutils
+platforms           darwin
+maintainers         {gmail.com:israelchauca @Raimondi} \
+                    openmaintainer
+license             MIT Apache
+
+description         A simple, fast and user-friendly alternative to find.
+long_description    fd is a simple, fast and user-friendly alternative to find. \
+                    While it does not seek to mirror all of find's powerful \
+                    functionality, it provides sensible (opinionated) defaults \
+                    for 80% of the use cases.
+
+github.tarball_from releases
+
+distname            ${name}-v${version}-x86_64-apple-darwin
+
+checksums           rmd160  5eb3d69d19448ad344c8befaa7c246de7f8c8bbc \
+                    sha256  04d24d69e7a01f7a2943d7d2d0b051c2f25c3da74581665cf2698c9c16b95b1a
+
+#depends_build       port:cargo
+
+use_configure       no
+
+build {}
+#build.cmd           cargo
+#build.target        build
+#build.args          --release
+#build.env           RUSTFLAGS="-C linker=${configure.cc}"
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/fd ${destroot}${prefix}/bin/
+    #ln -s rg ${destroot}${prefix}/bin/ripgrep
+    xinstall -m 444 ${worksrcpath}/fd.1 ${destroot}${prefix}/share/man/man1/
+}

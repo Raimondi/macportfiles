@@ -5,6 +5,7 @@ while [ -h "$self" ]
 do
   self=$(readlink "$self")
 done
+
 rootdir=$(cd "$(dirname "$self")" && pwd -P)
 log="$rootdir/port_update.log"
 portfile_bk=.port_update_Portfile.bk
@@ -70,6 +71,7 @@ do
   if ! port installed $portname | grep -q '^None'; then
     sudo -n true 2>/dev/null || printf '\a'
     logmsg "$log" "upgrading '$portname'..."
+    sudo port clean --dist $portname
     if ! sudo port upgrade --no-rev-upgrade $portname; then
       mv -f $portfile_bk Portfile
       logerr "$log" "could not upgrade $portname"
